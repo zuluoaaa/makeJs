@@ -1,0 +1,22 @@
+{
+  "name": "makejs",
+  "version": "1.0.0",
+  "description": "a sub Javascript compiler for compiling itself",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node src/index.js -i ./test/test1.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuluoaaa/makeJs.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zuluoaaa/makeJs/issues"
+  },
+  "homepage": "https://github.com/zuluoaaa/makeJs#readme"
+}
