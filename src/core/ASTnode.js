@@ -7,8 +7,9 @@ class ASTnode{
     op = null;
     type = null;
     value = null;
-
-    constructor() {}
 }
 
-export default ASTnode;
+
+module.exports = {
+    ASTnode
+};

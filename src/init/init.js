@@ -8,8 +8,6 @@ function init() {
     }
     let data = readFileToStr(arguments[1]);
     gData.content = data;
-    gData.index = 0;
-    gData.line = 0;
 }
 
 module.exports = {
