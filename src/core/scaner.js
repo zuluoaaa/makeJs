@@ -1,4 +1,4 @@
-const {gData,tokenTypes} = require("./defines");
+const {gData,tokenTypes} = require("./token");
 const {errPrint} = require("../init/commons");
 const {validVar,validNumber,validBlank} = require("../utils/utils");
 
@@ -7,9 +7,9 @@ function scanKeyword(str) {
         case "let":
         case "var":
         case "const":
-            return tokenTypes.V_VAR;
+            return tokenTypes.T_VAR;
     }
-    return tokenTypes.V_IDENT;
+    return tokenTypes.T_IDENT;
 }
 
 function scanIdent(s) {
@@ -67,7 +67,7 @@ function scan(){
     skipBlank();
 
     if(index === content.length-1){
-        token.type = tokenTypes.M_EOF;
+        token.type = tokenTypes.T_EOF;
         return;
     }
 
@@ -75,26 +75,26 @@ function scan(){
   
     switch (value) {
         case "+":
-            token.type = tokenTypes.M_ADD;
+            token.type = tokenTypes.T_ADD;
             break;
         case "-":
-            token.type = tokenTypes.M_SUB;
+            token.type = tokenTypes.T_SUB;
             break;
         case "*":
-            token.type = tokenTypes.M_MUL;
+            token.type = tokenTypes.T_MUL;
             break;
         case "/":
-            token.type = tokenTypes.M_DIV;
+            token.type = tokenTypes.T_DIV;
             break;
         case "=":
-            token.type = tokenTypes.M_ASSIGN;
+            token.type = tokenTypes.T_ASSIGN;
             break;
             //todo
 
         default:
             if(validNumber(value)){
                 token.value = scanInt(value);
-                token.type = tokenTypes.V_INT;
+                token.type = tokenTypes.T_INT;
                 break;
             }
             else if(validVar(value)){

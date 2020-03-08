@@ -1,5 +1,5 @@
 const {readFileToStr} = require("../utils/readFile")
-const {gData} = require("../core/defines");
+const {gData} = require("../core/token");
 
 function init() {
     let arguments = process.argv.splice(2);

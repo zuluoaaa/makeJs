@@ -1,33 +1,27 @@
-/**
- * value of token types also is index of Operator Precedence List
- */
 
 
 
-const M_ADD = 3;
-const M_SUB = 4;
-
-const M_MUL = 5;
-const M_DIV = 6;
-
-const M_ASSIGN = 7;
-
-const M_EOF = 1;
-const V_VAR = 200;
-const V_INT = 201;
-const V_IDENT = 202;
+const T_ADD = "+";
+const T_SUB = "-";
+const T_MUL = "*";
+const T_DIV = "/";
+const T_ASSIGN = "=";
+const T_EOF = "";
+const T_INT = "int";
+const T_VAR = "var";
+const T_IDENT = "identifier";
 
 
 const tokenTypes = {
-    M_EOF,// end
-    V_INT,// number
-    M_ADD,// +
-    M_SUB,// -
-    M_MUL,// *
-    M_DIV,// /
-    V_VAR,// var | let | const
-    V_IDENT,
-    M_ASSIGN
+    T_ADD,
+    T_SUB,
+    T_MUL,
+    T_DIV,
+    T_ASSIGN,
+    T_EOF,
+    T_INT,
+    T_VAR,
+    T_IDENT,
 };
 
 class Token{

@@ -1,4 +1,4 @@
-const {gData,tokenTypes} = require("../core/defines");
+const {gData,tokenTypes} = require("./token");
 const {errPrint} = require("../init/commons");
 
 const {gVarMap} = gData;

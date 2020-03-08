@@ -1,4 +1,4 @@
-const {gData,tokenTypes} = require("../core/defines");
+const {gData,tokenTypes} = require("../core/token");
 
 
 function errPrint(msg){
