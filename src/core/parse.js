@@ -9,22 +9,19 @@ const {primary} = require("./genAST")
 function varDeclaration() {
     let {token}  = gData;
     match(tokenTypes.T_VAR,"var");
-    if(token.type === tokenTypes.T_IDENT){
+    if(match(tokenTypes.T_IDENT,"identifier")){
         addVar(token.value);
     }else {
         errPrint(`unknown error : token type: ${token.type}`);
     }
-
-    assignStatement();
+    match(tokenTypes.T_SEMI,";");
+    //assignStatement();
 }
 
 function assignStatement() {
     let {token}  = gData;
     match(tokenTypes.T_IDENT,"identifier");
-    if(token.type !== tokenTypes.T_ASSIGN){
-        return;
-    }
-
+    match(tokenTypes.T_ASSIGN,"assign");
     let astTree = parseExpression(0);
 
 }
@@ -58,6 +55,5 @@ function statement(){
 }
 
 module.exports = {
-    parseExp,
     statement
 }

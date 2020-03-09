@@ -47,7 +47,7 @@ function skipBlank() {
             case "%0A":
             case "%20":
             case "%0D":
-            case ";":
+            //case ";":
                 break;
             default:
 
@@ -65,14 +65,14 @@ function scan(){
     } = gData;
 
     skipBlank();
-
+    token.value = null;
     if(index === content.length-1){
         token.type = tokenTypes.T_EOF;
         return;
     }
 
     let value = nextChar();
-  
+
     switch (value) {
         case "+":
             token.type = tokenTypes.T_ADD;
@@ -88,6 +88,9 @@ function scan(){
             break;
         case "=":
             token.type = tokenTypes.T_ASSIGN;
+            break;
+        case ";":
+            token.type = tokenTypes.T_SEMI;
             break;
             //todo
 
@@ -106,14 +109,16 @@ function scan(){
             errPrint(`Unrecognised char : ${value}`)
         }
 
-        console.log(gData.token)
+        console.log(gData.token,value)
 }
 
 function match(type,text){
+    console.log(gData.token.type,type,text)
     if(gData.token.type === type){
         scan();
+        return true
     }else{
-        errPrint(`Exception : ${text}`)
+        errPrint(`Exception : ${text}`);
     }
 }
 

@@ -1,6 +1,4 @@
 
-
-
 const T_ADD = "+";
 const T_SUB = "-";
 const T_MUL = "*";
@@ -10,7 +8,13 @@ const T_EOF = "";
 const T_INT = "int";
 const T_VAR = "var";
 const T_IDENT = "identifier";
+const T_SEMI = ";"
 
+const precedenceList = {
+    "":0,
+    "+":10, "-":10,
+    "*":20,"/":20,
+};
 
 const tokenTypes = {
     T_ADD,
@@ -22,6 +26,7 @@ const tokenTypes = {
     T_INT,
     T_VAR,
     T_IDENT,
+    T_SEMI
 };
 
 class Token{
@@ -59,6 +64,7 @@ const gData = {
 module.exports = {
     tokenTypes,
     gData,
-    Token
+    Token,
+    precedenceList
 };
 

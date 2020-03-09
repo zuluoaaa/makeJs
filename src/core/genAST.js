@@ -1,4 +1,4 @@
-const {ASTNode} = require("ASTnode")
+const {ASTNode} = require("./ASTnode");
 const {gData,tokenTypes} = require("./token");
 const {match,scan} = require("./scaner");
 const {errPrint} = require("../init/commons");
