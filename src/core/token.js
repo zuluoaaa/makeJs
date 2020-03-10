@@ -3,12 +3,23 @@ const T_ADD = "+";
 const T_SUB = "-";
 const T_MUL = "*";
 const T_DIV = "/";
-const T_ASSIGN = "=";
+
+const T_GT = ">";
+const T_GE = ">=";
+const T_LT = "<";
+const T_LE = "<=";
+const T_EQ = "==";
+const T_NEQ = "!=";
+
 const T_EOF = "";
+const T_SEMI = ";";
+
+const T_ASSIGN = "=";
 const T_INT = "int";
 const T_VAR = "var";
 const T_IDENT = "identifier";
-const T_SEMI = ";"
+const T_LVALUE = "leftValue";
+
 
 const precedenceList = {
     "":0,
@@ -17,16 +28,11 @@ const precedenceList = {
 };
 
 const tokenTypes = {
-    T_ADD,
-    T_SUB,
-    T_MUL,
-    T_DIV,
-    T_ASSIGN,
-    T_EOF,
-    T_INT,
-    T_VAR,
-    T_IDENT,
-    T_SEMI
+    T_ADD, T_SUB, T_MUL, T_DIV,
+    T_ASSIGN, T_INT, T_VAR, T_IDENT,
+    T_LVALUE,
+    T_EOF, T_SEMI,
+    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ
 };
 
 class Token{
@@ -56,7 +62,8 @@ const gData = {
 
     KEYWORD_MAX_LENGTH:512,
 
-    gVarMap:{}
+    gVarMap:{},
+    gSymbols:[]
 };
 
 

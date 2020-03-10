@@ -15,7 +15,7 @@ function scanKeyword(str) {
 function scanIdent(s) {
     let str = s;
     let c = nextChar();
-    while (!validBlank(c) &&
+    while (typeof c !== "undefined" && !validBlank(c) &&
     (validNumber(c) || validVar((c)))){
         if(str.length > gData.KEYWORD_MAX_LENGTH){
             errPrint(`Identifier too long : ${str}`);
@@ -58,21 +58,18 @@ function skipBlank() {
 }
 
 function scan(){
+    skipBlank();
     let {
         content,
         index,
         token
     } = gData;
-
-    skipBlank();
     token.value = null;
-    if(index === content.length-1){
+    if(index === content.length){
         token.type = tokenTypes.T_EOF;
         return;
     }
-
     let value = nextChar();
-
     switch (value) {
         case "+":
             token.type = tokenTypes.T_ADD;
@@ -108,12 +105,9 @@ function scan(){
             }
             errPrint(`Unrecognised char : ${value}`)
         }
-
-        console.log(gData.token,value)
 }
 
 function match(type,text){
-    console.log(gData.token.type,type,text)
     if(gData.token.type === type){
         scan();
         return true
@@ -134,12 +128,14 @@ function nextChar(){
         return c;
     }
     gData.index +=1;
-
-    let value = encodeURI(content[gData.index]);
-    if(value === "%0A"){
-        gData.line+=1;
+    if(gData.index <= content.length-1){
+        let value = encodeURI(content[gData.index]);
+        if(value === "%0A"){
+            gData.line+=1;
+        }
+        return value;
     }
-    return value;
+    return null;
 }
 
 function putBack(char){

@@ -1,7 +1,8 @@
 const {gData,tokenTypes} = require("./token");
 const {errPrint} = require("../init/commons");
 
-const {gVarMap} = gData;
+const {gVarMap,gSymbols} = gData;
+
 
 function addVar(name) {
     gVarMap[name] = null;
@@ -10,6 +11,7 @@ function addVar(name) {
 function assignVal(name,val) {
     //todo
     gVarMap[name] = val;
+    return val;
 }
 
 function findVar(name){

@@ -3,8 +3,8 @@ const {errPrint} = require("../init/commons");
 const {match,scan} = require("./scaner");
 const {addVar, assignVal} = require("./data");
 const {parseExpression} = require("./expression");
-const {primary} = require("./genAST")
-
+const {primary,genAST} = require("./genAST");
+const {ASTNode} = require("./ASTnode");
 
 function varDeclaration() {
     let {token}  = gData;
@@ -20,13 +20,19 @@ function varDeclaration() {
 
 function assignStatement() {
     let {token}  = gData;
+    let right = new ASTNode().initLeafNode(tokenTypes.T_LVALUE,token.value);
     match(tokenTypes.T_IDENT,"identifier");
     match(tokenTypes.T_ASSIGN,"assign");
-    let astTree = parseExpression(0);
+    let left = parseExpression(0);
+    let root = new ASTNode().initTwoNode(tokenTypes.T_ASSIGN,left,right);
+    let result = genAST(root);
+    console.log(result,"7777");
+    match(tokenTypes.T_SEMI,";");
 
 }
 
 function numberStatement() {
+
     let left = primary();
 
 }
