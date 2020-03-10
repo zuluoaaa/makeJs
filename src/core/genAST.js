@@ -1,6 +1,6 @@
 const {ASTNode} = require("./ASTnode");
-const {gData,tokenTypes} = require("./token");
-const {match,scan} = require("./scaner");
+const {gData,tokenTypes,ASTNodeTypes} = require("./token");
+const {match,scan} = require("./scanner");
 const {errPrint} = require("../init/commons");
 const {addVar, assignVal,findVar} = require("./data");
 function primary() {
@@ -8,10 +8,10 @@ function primary() {
     let {token} = gData;
 
     switch (token.type) {
-        case tokenTypes.T_INT:
+        case ASTNodeTypes.T_INT:
             asTnode.initLeafNode(token.type,token.value);
             break;
-        case tokenTypes.T_IDENT:
+        case ASTNodeTypes.T_IDENT:
             asTnode.initLeafNode(token.type,token.value);
             break;
         default:
@@ -32,22 +32,22 @@ function genAST(astNode,result=null){
     }
 
     switch (astNode.op) {
-        case tokenTypes.T_INT:
+        case ASTNodeTypes.T_INT:
              return astNode.value;
-        case tokenTypes.T_ADD:
+        case ASTNodeTypes.T_ADD:
             return leftResult + rightResult;
-        case tokenTypes.T_SUB:
+        case ASTNodeTypes.T_SUB:
             return leftResult - rightResult;
-        case tokenTypes.T_MUL:
+        case ASTNodeTypes.T_MUL:
             return leftResult * rightResult;
-        case tokenTypes.T_DIV:
+        case ASTNodeTypes.T_DIV:
             return leftResult / rightResult;
-        case tokenTypes.T_ASSIGN:
+        case ASTNodeTypes.T_ASSIGN:
             return rightResult;
-        case tokenTypes.T_IDENT:
+        case ASTNodeTypes.T_IDENT:
             //todo
             return findVar(astNode.value);
-        case tokenTypes.T_LVALUE:
+        case ASTNodeTypes.T_LVALUE:
             return assignVal(astNode.value,result);
 
 

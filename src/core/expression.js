@@ -1,6 +1,6 @@
 const {gData,tokenTypes,precedenceList} = require("./token");
 const {errPrint} = require("../init/commons");
-const {match,scan} = require("./scaner");
+const {match,scan} = require("./scanner");
 const {addVar, assignVal} = require("./data");
 const {primary} = require("./genAST");
 const {ASTNode} = require("./ASTnode");

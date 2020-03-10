@@ -27,11 +27,18 @@ const precedenceList = {
     "*":20,"/":20,
 };
 
+
 const tokenTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_ASSIGN, T_INT, T_VAR, T_IDENT,
-    T_LVALUE,
     T_EOF, T_SEMI,
+    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ
+};
+
+const ASTNodeTypes = {
+    T_ADD, T_SUB, T_MUL, T_DIV,
+    T_ASSIGN,T_INT,T_IDENT,
+    T_LVALUE,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ
 };
 
@@ -72,6 +79,7 @@ module.exports = {
     tokenTypes,
     gData,
     Token,
-    precedenceList
+    precedenceList,
+    ASTNodeTypes
 };
 

@@ -1,5 +1,5 @@
 const {init} = require("./init/init")
-const {scan} = require("./core/scaner");
+const {scan} = require("./core/scanner");
 const {statement} = require("./core/parse");
 
 function main(){
