@@ -2,7 +2,7 @@
 For leaning how to do a compiler. 
 So I make a sub Javascript compiler for compiling itself
 
-#in developing
+# in developing
 
 now support：
 
@@ -19,7 +19,7 @@ now support：
  b = 8+a*2;
  `
  
- #future support:
+ # future support:
  * if statement
  * for loop / while loop
  * function
