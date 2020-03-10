@@ -26,7 +26,7 @@ function assignStatement() {
     let left = parseExpression(0);
     let root = new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right);
     let result = genAST(root);
-    console.log(result,"7777");
+    console.log(result,"output");
     match(tokenTypes.T_SEMI,";");
 
 }
