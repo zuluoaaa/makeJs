@@ -27,7 +27,6 @@ c = c + 7;
 ```
  
  # future support:
- * if statement
  * for loop / while loop
  * function
  * ...
