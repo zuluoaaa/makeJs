@@ -8,15 +8,22 @@ now support：
 
 * define variables
 * simple expression
+* compares
+* if statement
 
 ```js
- let a;
- 
- let b;
- 
- a = 5+60*7+11;
- 
- b = 8+a*2;
+let a;
+let b;
+let c;
+a = 1+7*6;
+b = 8*3*2;
+
+if(a > b){
+    c = a;
+}else {
+    c = b;
+}
+c = c + 7;
 ```
  
  # future support:
