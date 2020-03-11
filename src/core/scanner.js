@@ -8,6 +8,10 @@ function scanKeyword(str) {
         case "var":
         case "const":
             return tokenTypes.T_VAR;
+        case "if":
+            return tokenTypes.T_IF;
+        case "else":
+            return tokenTypes.T_ELSE;
     }
     return tokenTypes.T_IDENT;
 }
@@ -43,16 +47,16 @@ function skipBlank() {
 
     while (true){
         let value = nextChar();
-        switch (value) {
-            case "%0A":
-            case "%20":
-            case "%0D":
-            //case ";":
-                break;
-            default:
-
-                putBack(value);
-                return;
+       if(value === null){
+           return;
+       }
+        if(value !== " " &&
+            value.indexOf("\r\n") === -1 &&
+            value.indexOf("\n") === -1 &&
+            value.indexOf("\r") === -1
+        ){
+            putBack(value);
+            return;
         }
     }
 }
@@ -70,6 +74,8 @@ function scan(){
         return;
     }
     let value = nextChar();
+    let next;
+
     switch (value) {
         case "+":
             token.type = tokenTypes.T_ADD;
@@ -84,10 +90,57 @@ function scan(){
             token.type = tokenTypes.T_DIV;
             break;
         case "=":
-            token.type = tokenTypes.T_ASSIGN;
+            next = nextChar();
+            if(next === "="){
+                token.type = tokenTypes.T_EQ;
+                next = nextChar();
+                if(next !== "="){
+                    putBack(next);
+                }
+            }else{
+                token.type = tokenTypes.T_ASSIGN;
+                putBack(next);
+            }
             break;
         case ";":
             token.type = tokenTypes.T_SEMI;
+            break;
+        case "!":
+            next = nextChar();
+            if(next === "="){
+                token.type = tokenTypes.T_NEQ;
+            }
+            errPrint(`Unrecognised char : ${value}${next}`);
+            break;
+        case ">":
+             next = nextChar();
+            if(next === "="){
+                token.type = tokenTypes.T_GE;
+            }else {
+                token.type = tokenTypes.T_GT;
+                putBack(next);
+            }
+            break;
+        case "<":
+             next = nextChar();
+            if(next === "="){
+                token.type = tokenTypes.T_LE;
+            }else {
+                token.type = tokenTypes.T_LT;
+                putBack(next);
+            }
+            break;
+        case "(":
+            token.type = tokenTypes.T_LPT;
+            break;
+        case ")":
+            token.type = tokenTypes.T_RPT;
+            break;
+        case "{":
+            token.type = tokenTypes.T_LBR;
+            break;
+        case "}":
+            token.type = tokenTypes.T_RBR;
             break;
             //todo
 
@@ -103,7 +156,7 @@ function scan(){
                 token.value = value;
                 break;
             }
-            errPrint(`Unrecognised char : ${value}`)
+            errPrint(`Unrecognised char : (${value})`)
         }
 }
 
@@ -129,8 +182,8 @@ function nextChar(){
     }
     gData.index +=1;
     if(gData.index <= content.length-1){
-        let value = encodeURI(content[gData.index]);
-        if(value === "%0A"){
+        let value = content[gData.index];
+        if(value.indexOf("\r\n")>-1 || value.indexOf("\n")>-1){
             gData.line+=1;
         }
         return value;

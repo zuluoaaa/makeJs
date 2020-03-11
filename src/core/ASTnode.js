@@ -5,6 +5,7 @@ class ASTNode{
     constructor() {
         this.left = null;
         this.right = null;
+        this.mid = null;
         this.op = null;
         this.value = null;
     }

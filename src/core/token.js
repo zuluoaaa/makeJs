@@ -21,8 +21,17 @@ const T_IDENT = "identifier";
 const T_LVALUE = "leftValue";
 
 
+const T_IF = "if";
+const T_ELSE = "else";
+const T_LPT = "(";
+const T_RPT = ")";
+const T_LBR = "{";
+const T_RBR = "}";
+
+
 const precedenceList = {
     "":0,
+    ">":5,">=":5,"<":5,"<=":5,"==":5,"!=":5,
     "+":10, "-":10,
     "*":20,"/":20,
 };
@@ -32,14 +41,16 @@ const tokenTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_ASSIGN, T_INT, T_VAR, T_IDENT,
     T_EOF, T_SEMI,
-    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ
+    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
+    T_IF, T_ELSE,T_LPT, T_RPT, T_LBR, T_RBR
 };
 
 const ASTNodeTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_ASSIGN,T_INT,T_IDENT,
     T_LVALUE,
-    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ
+    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
+    T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR
 };
 
 class Token{

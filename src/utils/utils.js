@@ -13,14 +13,15 @@ function validNumber(char){
     return reg.test(char)
 }
 
-function validBlank(char){
-    switch (char) {
-        case "%0A":
-        case "%20":
-        case "%0D":
-            return true;
-        default:
-            return false;
+function validBlank(value){
+    if(value !== " " &&
+        value.indexOf("\r\n") === -1 &&
+        value.indexOf("\n") === -1 &&
+        value.indexOf("\r") === -1
+    ){
+        return false;
+    }else{
+        return true;
     }
 }
 

@@ -14,6 +14,7 @@ function parseExpression(precedenceValue) {
     }
 
     while (precedenceList[token.type]>precedenceValue){
+
         let type = token.type;
         scan();
         let right = parseExpression(precedenceList[type]);
