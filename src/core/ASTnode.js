@@ -17,17 +17,18 @@ class ASTNode{
     }
 
     initUnaryNode(op,left,value){
-        this.op = op;
         this.left = left;
-        this.value = value;
+        return this.initLeafNode(op,value);
     }
 
     initTwoNode(op,left,right,value){
-        this.op = op;
-        this.left = left;
         this.right = right;
-        this.value = value;
-        return this;
+        return this.initUnaryNode(op,left,value);
+    }
+
+    initThreeNode(op,left,mid,right,value){
+        this.mid = mid;
+        return this.initTwoNode(op,left,right,value);
     }
 }
 

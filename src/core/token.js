@@ -28,6 +28,7 @@ const T_RPT = ")";
 const T_LBR = "{";
 const T_RBR = "}";
 
+const T_GLUE = "_glue";
 
 const precedenceList = {
     "":0,
@@ -50,7 +51,8 @@ const ASTNodeTypes = {
     T_ASSIGN,T_INT,T_IDENT,
     T_LVALUE,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
-    T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR
+    T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
+    T_GLUE
 };
 
 class Token{

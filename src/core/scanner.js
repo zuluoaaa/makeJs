@@ -44,7 +44,6 @@ function scanInt(s) {
 }
 
 function skipBlank() {
-
     while (true){
         let value = nextChar();
        if(value === null){
@@ -195,7 +194,32 @@ function putBack(char){
     gData.putBack = char;
 }
 
+function leftBrace(){
+    return match(tokenTypes.T_LBR,"{");
+}
+
+function rightBrace(){
+    return match(tokenTypes.T_RBR,"}");
+}
+
+function leftPt(){
+    return match(tokenTypes.T_LPT,"(");
+}
+
+function rightPt(){
+    return match(tokenTypes.T_RPT,"}");
+}
+
+function semicolon(){
+    return match(tokenTypes.T_SEMI,";");
+}
+
 module.exports = {
     scan,
-    match
+    match,
+    leftBrace,
+    rightBrace,
+    leftPt,
+    rightPt,
+    semicolon
 }
