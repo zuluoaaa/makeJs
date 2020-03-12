@@ -1,13 +1,12 @@
 let a;
 let b;
-let c;
+let ccc;
 a = 1+7*6;
 b = 8*3*2;
 
 if(a > b){
-    c = a;
+    ccc = a;
 }else {
-    c = b;
+    ccc = b;
 }
-c = c + 7;
-
+ccc = ccc + 7;

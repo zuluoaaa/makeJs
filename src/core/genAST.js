@@ -21,8 +21,28 @@ function primary() {
     return asTnode;
 }
 
+function getIfAST(astNode) {
+    let state = genAST(astNode.left);
+    if(state){
+        genAST(astNode.mid);
+    }else{
+        if(astNode.right){
+            genAST(astNode.right);
+        }
+    }
+}
 
 function genAST(astNode,result=null){
+
+    switch (astNode.op) {
+        case ASTNodeTypes.T_IF:
+            return getIfAST(astNode);
+        case ASTNodeTypes.T_GLUE:
+            genAST(astNode.left);
+            genAST(astNode.right);
+            return;
+    }
+
     let leftResult,rightResult;
     if(astNode.left){
         leftResult = genAST(astNode.left);
@@ -49,12 +69,22 @@ function genAST(astNode,result=null){
             return findVar(astNode.value);
         case ASTNodeTypes.T_LVALUE:
             return assignVal(astNode.value,result);
-
+        case ASTNodeTypes.T_GE:
+            return  leftResult >= rightResult;
+        case ASTNodeTypes.T_GT:
+            return  leftResult > rightResult;
+        case ASTNodeTypes.T_LE:
+            return  leftResult <= rightResult;
+        case ASTNodeTypes.T_LT:
+            return  leftResult < rightResult;
+        case ASTNodeTypes.T_EQ:
+            return  leftResult === rightResult;
+        case ASTNodeTypes.T_NEQ:
+            return  leftResult !== rightResult;
 
         default:
             errPrint(`unknown ASTNode op : ${astNode.op}`);
     }
-
 }
 
 

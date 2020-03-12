@@ -16,8 +16,9 @@ const {ASTNode} = require("./ASTnode");
 function varDeclaration() {
     let {token}  = gData;
     match(tokenTypes.T_VAR,"var");
-    if(match(tokenTypes.T_IDENT,"identifier")){
+    if(token.type === tokenTypes.T_IDENT){
         addVar(token.value);
+        scan();
     }else {
         errPrint(`unknown error : token type: ${token.type}`);
     }

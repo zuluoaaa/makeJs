@@ -30,5 +30,6 @@ module.exports = {
     addVar,
     assignVal,
     findVar,
-    deleteVar
+    deleteVar,
+    gVarMap
 }
