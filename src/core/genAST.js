@@ -21,7 +21,7 @@ function primary() {
     return asTnode;
 }
 
-function getIfAST(astNode) {
+function genIfAST(astNode) {
     let state = genAST(astNode.left);
     if(state){
         genAST(astNode.mid);
@@ -32,15 +32,27 @@ function getIfAST(astNode) {
     }
 }
 
+function genWhileAST(astNode) {
+    let condition = astNode.left;
+    let body = astNode.right;
+    let state = genAST(condition);
+    if(state){
+        genAST(body);
+        genWhileAST(astNode);
+    }
+}
+
 function genAST(astNode,result=null){
 
     switch (astNode.op) {
         case ASTNodeTypes.T_IF:
-            return getIfAST(astNode);
+            return genIfAST(astNode);
         case ASTNodeTypes.T_GLUE:
             genAST(astNode.left);
             genAST(astNode.right);
             return;
+        case ASTNodeTypes.T_WHILE:
+            return genWhileAST(astNode);
     }
 
     let leftResult,rightResult;

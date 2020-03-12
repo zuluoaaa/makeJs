@@ -61,6 +61,17 @@ function ifStatement() {
     return new ASTNode().initThreeNode(ASTNodeTypes.T_IF,condition,trueBody,falseBody,null);
 }
 
+function whileStatement() {
+    let condition=null,body=null;
+    match(tokenTypes.T_WHILE,"while");
+    leftPt();
+    condition = parseExpression(0);
+    rightPt();
+    leftBrace();
+    body = statement();
+    rightBrace();
+    return new ASTNode().initTwoNode(ASTNodeTypes.T_WHILE,condition,body,null);
+}
 
 function statement(){
     let tree = null,left = null;
@@ -79,6 +90,9 @@ function statement(){
                 break;
             case tokenTypes.T_IF:
                 left = ifStatement();
+                break;
+            case tokenTypes.T_WHILE:
+                left = whileStatement();
                 break;
             case tokenTypes.T_EOF:
             case tokenTypes.T_RBR:

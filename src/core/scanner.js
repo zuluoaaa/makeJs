@@ -12,6 +12,8 @@ function scanKeyword(str) {
             return tokenTypes.T_IF;
         case "else":
             return tokenTypes.T_ELSE;
+        case "while":
+            return tokenTypes.T_WHILE;
     }
     return tokenTypes.T_IDENT;
 }
