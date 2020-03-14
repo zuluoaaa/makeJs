@@ -29,6 +29,7 @@ const T_IF = "if";
 const T_ELSE = "else";
 const T_WHILE = "while_loop";
 const T_FOR = "for_loop";
+const T_FUN = "function";
 
 const T_GLUE = "_glue";
 
@@ -46,7 +47,8 @@ const tokenTypes = {
     T_EOF, T_SEMI,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF, T_ELSE,T_LPT, T_RPT, T_LBR, T_RBR,
-    T_WHILE,T_FOR
+    T_WHILE,T_FOR,
+    T_FUN
 };
 
 const ASTNodeTypes = {
@@ -55,7 +57,8 @@ const ASTNodeTypes = {
     T_LVALUE,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
-    T_GLUE,T_WHILE,T_FOR
+    T_GLUE,T_WHILE,T_FOR,
+    T_FUN
 };
 
 class Token{
