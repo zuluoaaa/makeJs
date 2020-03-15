@@ -1,6 +1,6 @@
 # makeJs
 For leaning how to do a compiler. 
-So I make a sub Javascript compiler for compiling itself
+So I make a sub Javascript interpreter for interpreting itself
 
 # In developing
 

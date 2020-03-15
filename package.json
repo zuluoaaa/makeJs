@@ -1,7 +1,7 @@
 {
   "name": "makejs",
   "version": "1.0.0",
-  "description": "a sub Javascript compiler for compiling itself",
+  "description": "a sub Javascript interpreter for interpreting itself",
   "main": "index.js",
   "directories": {
     "test": "test"
