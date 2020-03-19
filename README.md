@@ -1,6 +1,10 @@
 # makeJs
-For leaning how to do a compiler. 
-So I make a sub Javascript interpreter for interpreting itself
+
+For leaning how to do a interpreter. 
+
+So I make a sub Javascript interpreter for interpreting itself.
+(No dependence any third-party)
+
 
 # In developing
 

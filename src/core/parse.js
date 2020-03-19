@@ -73,6 +73,11 @@ function whileStatement() {
     return new ASTNode().initTwoNode(ASTNodeTypes.T_WHILE,condition,body,null);
 }
 
+
+function funStatement(){
+
+}
+
 function statement(){
     let tree = null,left = null;
     while (true){
@@ -93,6 +98,10 @@ function statement(){
                 break;
             case tokenTypes.T_WHILE:
                 left = whileStatement();
+                break;
+            case tokenTypes.T_FUN:
+                funStatement();
+                left = null;
                 break;
             case tokenTypes.T_EOF:
             case tokenTypes.T_RBR:

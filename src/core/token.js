@@ -1,3 +1,4 @@
+const {Scope} = require("./scope");
 
 const T_ADD = "+";
 const T_SUB = "-";
@@ -11,11 +12,15 @@ const T_LE = "<=";
 const T_EQ = "==";
 const T_NEQ = "!=";
 
+const T_AND = "&&";
+const T_OR = "||";
+
+
 const T_EOF = "";
 const T_SEMI = ";";
 
 const T_ASSIGN = "=";
-const T_INT = "int";
+
 const T_VAR = "var";
 const T_IDENT = "identifier";
 const T_LVALUE = "leftValue";
@@ -25,11 +30,22 @@ const T_RPT = ")";
 const T_LBR = "{";
 const T_RBR = "}";
 
+
+const T_OBJECT = "[object object]";
+const T_ARRAY = "array";
+
+const T_STRING = "string";
+const T_NULL = "null";
+const T_UNDEFINED = "undefined";
+const T_BOOL = "BOOL";
+const T_INT = "number";
+const T_FUN = "function";
+
 const T_IF = "if";
 const T_ELSE = "else";
 const T_WHILE = "while_loop";
 const T_FOR = "for_loop";
-const T_FUN = "function";
+
 
 const T_GLUE = "_glue";
 
@@ -88,8 +104,8 @@ const gData = {
 
     KEYWORD_MAX_LENGTH:512,
 
-    gVarMap:{},
-    gSymbols:[]
+    gScope:new Scope(),
+    currentScope:this.gScope
 };
 
 

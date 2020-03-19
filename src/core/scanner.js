@@ -1,22 +1,16 @@
 const {gData,tokenTypes} = require("./token");
 const {errPrint} = require("../init/commons");
 const {validVar,validNumber,validBlank} = require("../utils/utils");
+const { defineKeywords } = require("./define");
+
 
 function scanKeyword(str) {
-    switch (str) {
-        case "let":
-        case "var":
-        case "const":
-            return tokenTypes.T_VAR;
-        case "if":
-            return tokenTypes.T_IF;
-        case "else":
-            return tokenTypes.T_ELSE;
-        case "while":
-            return tokenTypes.T_WHILE;
+    if(defineKeywords[str]){
+        return defineKeywords[str];
     }
     return tokenTypes.T_IDENT;
 }
+
 
 function scanIdent(s) {
     let str = s;

@@ -1,29 +1,37 @@
 const {gData,tokenTypes} = require("./token");
 const {errPrint} = require("../init/commons");
 
-const {gVarMap,gSymbols} = gData;
+const {currentScope} = gData;
 
 
 function addVar(name) {
-    gVarMap[name] = null;
+    currentScope[name] = {
+        type:null,
+        value:undefined,
+    };
 }
 
-function assignVal(name,val) {
-    //todo
-    gVarMap[name] = val;
+function assignVal(name,val,type) {
+    if(!currentScope[name]){
+        //todo
+        //check the env is strict or normal
+        //throw error if strict
+        currentScope[name] = {};
+    }
+    currentScope[name].value = val;
+    currentScope[name].type = type;
     return val;
 }
 
 function findVar(name){
-    //todo
-    if(typeof gVarMap[name] === "undefined"){
-        return null;
+    if(currentScope[name]){
+        return currentScope[name].value
     }
-    return  gVarMap[name];
+    return null;
 }
 
 function deleteVar(name){
-    delete  gVarMap[name];
+    delete  currentScope[name];
 }
 
 module.exports = {
