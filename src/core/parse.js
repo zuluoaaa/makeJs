@@ -12,16 +12,23 @@ const {addVar, assignVal} = require("./data");
 const {parseExpression} = require("./expression");
 const {primary,genAST} = require("./genAST");
 const {ASTNode} = require("./ASTnode");
+const {Scope} = require("./scope");
 
 function varDeclaration() {
     let {token}  = gData;
     match(tokenTypes.T_VAR,"var");
-    if(token.type === tokenTypes.T_IDENT){
-        addVar(token.value);
-        scan();
-    }else {
-        errPrint(`unknown error : token type: ${token.type}`);
-    }
+    do{
+        if(token.type === tokenTypes.T_IDENT){
+            addVar(token.value);
+            scan();
+
+            if(token.type === tokenTypes.T_SEMI){
+                break;
+            }
+        }else {
+            errPrint(`unknown error : token type: ${token.type}`);
+        }
+    }while (token.type === tokenTypes.T_COMMA && scan());
     semicolon();
     //assignStatement();
 }
@@ -74,11 +81,43 @@ function whileStatement() {
 }
 
 
-function funStatement(){
+function funStatement(parentScope){
+
+    let {token}  = gData;
+    let scope = new Scope(parentScope);
+    gData.currentScope = scope;
+
+    match(tokenTypes.T_FUN,"function");
+    let funName = token.value;
+    match(tokenTypes.T_IDENT,"identifier");
+
+    leftPt();
+    token.type = tokenTypes.T_VAR;
+    statement(scope);
+    rightPt();
+
+    leftBrace();
+    let funBody = statement();
+    rightBrace();
+
+    gData.currentScope = parentScope;
+    let astNode = new ASTNode().initUnaryNode(ASTNodeTypes.T_FUN,funBody,null);
+    addVar(funName);
+    assignVal(funName,astNode,ASTNodeTypes.T_FUN);
 
 }
 
-function statement(){
+function returnStatement(){
+
+}
+
+function funCallStatement(){
+    let tree = parseExpression(0);
+    rightPt();
+    return tree;
+}
+
+function statement(scope){
     let tree = null,left = null;
     while (true){
         let {token}  = gData;
@@ -100,11 +139,18 @@ function statement(){
                 left = whileStatement();
                 break;
             case tokenTypes.T_FUN:
-                funStatement();
+                funStatement(scope);
                 left = null;
+                break;
+            case tokenTypes.T_FUNCALL:
+                left = funCallStatement();
+                break;
+            case tokenTypes.T_RETURN:
+                left = returnStatement();
                 break;
             case tokenTypes.T_EOF:
             case tokenTypes.T_RBR:
+            case tokenTypes.T_RPT:
                 return tree;
             default:
                 errPrint(`unknown Syntax:${token.type} , at ${gData.line} line`)

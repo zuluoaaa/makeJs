@@ -8,6 +8,7 @@ class ASTNode{
         this.mid = null;
         this.op = null;
         this.value = null;
+
     }
 
     initLeafNode(op,value){

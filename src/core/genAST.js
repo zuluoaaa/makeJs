@@ -1,8 +1,10 @@
 const {ASTNode} = require("./ASTnode");
 const {gData,tokenTypes,ASTNodeTypes} = require("./token");
-const {match,scan} = require("./scanner");
+const {match,scan,rightPt} = require("./scanner");
 const {errPrint} = require("../init/commons");
 const {addVar, assignVal,findVar} = require("./data");
+const { parseExpression } = require("./expression");
+
 function primary() {
     let asTnode = new ASTNode();
     let {token} = gData;
@@ -14,12 +16,33 @@ function primary() {
         case ASTNodeTypes.T_IDENT:
             asTnode.initLeafNode(token.type,token.value);
             break;
+        case ASTNodeTypes.T_FUNCALL:
+            asTnode.initUnaryNode(token.type,funArgs(),token.value);
+            break;
         default:
             errPrint(`unknown Syntax token : ${token.type} : value : ${token.value}`)
     }
     scan();
     return asTnode;
 }
+
+function funArgs() {
+    let {token} = gData;
+    let args = [];
+    let astNode = new ASTNode().initLeafNode(ASTNodeTypes.T_FUNARGS,args);
+    scan();
+    while (token.type !== tokenTypes.T_RPT){
+        let tree = parseExpression(0);
+        args.push(tree);
+        scan();
+        if(token.type !== tokenTypes.T_COMMA && token.type !== tokenTypes.T_RPT){
+           errPrint(`unknown Syntax token : ${token.type} : value : ${token.value}`);
+        }
+    }
+    match(tokenTypes.T_RPT,")");
+    return astNode;
+}
+
 
 function genIfAST(astNode) {
     let state = genAST(astNode.left);

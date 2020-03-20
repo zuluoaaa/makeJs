@@ -9,7 +9,9 @@ function parseExpression(precedenceValue) {
     let {token} = gData;
     let left = primary();
 
-    if(token.type === tokenTypes.T_SEMI || token.type === tokenTypes.T_RPT){
+    if(token.type === tokenTypes.T_SEMI
+        || token.type === tokenTypes.T_RPT
+        || token.type === tokenTypes.T_COMMA){
         return left;
     }
 

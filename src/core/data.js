@@ -14,7 +14,7 @@ function addVar(name) {
 function assignVal(name,val,type) {
     if(!currentScope[name]){
         //todo
-        //check the env is strict or normal
+        //check the env was strict or normal
         //throw error if strict
         currentScope[name] = {};
     }

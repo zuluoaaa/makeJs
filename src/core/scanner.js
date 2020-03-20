@@ -8,6 +8,11 @@ function scanKeyword(str) {
     if(defineKeywords[str]){
         return defineKeywords[str];
     }
+    let nextToken = scan();
+    if(nextToken === tokenTypes.T_LPT){
+        return tokenTypes.T_FUNCALL;
+    }
+    putBackToken(nextToken);
     return tokenTypes.T_IDENT;
 }
 
@@ -61,9 +66,16 @@ function scan(){
     let {
         content,
         index,
-        token
+        token,
+        nextToken
     } = gData;
     token.value = null;
+
+    if(nextToken !== null){
+        let token = nextToken;
+        gData.nextToken = null;
+        return token;
+    }
     if(index === content.length){
         token.type = tokenTypes.T_EOF;
         return;
@@ -167,8 +179,10 @@ function match(type,text){
 function nextChar(){
     let {
         content,
-        putBack
+        putBack,
+        nextToken
     } = gData;
+
 
     if(putBack !== null){
         let c = putBack;
@@ -186,6 +200,9 @@ function nextChar(){
     return null;
 }
 
+function putBackToken(token) {
+    gData.nextToken = token;
+}
 function putBack(char){
     gData.putBack = char;
 }

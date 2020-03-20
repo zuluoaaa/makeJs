@@ -18,6 +18,7 @@ const T_OR = "||";
 
 const T_EOF = "";
 const T_SEMI = ";";
+const T_COMMA = ",";
 
 const T_ASSIGN = "=";
 
@@ -40,6 +41,9 @@ const T_UNDEFINED = "undefined";
 const T_BOOL = "BOOL";
 const T_INT = "number";
 const T_FUN = "function";
+const T_FUNCALL = "execute function";
+const T_FUNARGS = "args";
+const T_RETURN = "return";
 
 const T_IF = "if";
 const T_ELSE = "else";
@@ -60,11 +64,11 @@ const precedenceList = {
 const tokenTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_ASSIGN, T_INT, T_VAR, T_IDENT,
-    T_EOF, T_SEMI,
+    T_EOF, T_SEMI,T_COMMA,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF, T_ELSE,T_LPT, T_RPT, T_LBR, T_RBR,
     T_WHILE,T_FOR,
-    T_FUN
+    T_FUN,T_FUNCALL,T_RETURN
 };
 
 const ASTNodeTypes = {
@@ -74,7 +78,7 @@ const ASTNodeTypes = {
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
     T_GLUE,T_WHILE,T_FOR,
-    T_FUN
+    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN
 };
 
 class Token{
@@ -100,6 +104,7 @@ const gData = {
     index:-1,
     putBack:null,
     content:null,
+    nextToken:null,
     token:new Token(null,null),
 
     KEYWORD_MAX_LENGTH:512,
