@@ -62,6 +62,7 @@ function primary() {
             break;
         case ASTNodeTypes.T_IDENT:
             let name = token.value;
+            let originToken = JSON.parse(JSON.stringify(token));
             scan();
             if(token.type === tokenTypes.T_LPT){
                 token.type = tokenTypes.T_FUNCALL;
@@ -69,7 +70,7 @@ function primary() {
                 return funCallStatement();
             }
             putBackToken(token);
-            asTnode.initLeafNode(token.type,token.value);
+            asTnode.initLeafNode(originToken.type,originToken.value);
             break;
         case ASTNodeTypes.T_FUNCALL:
             let funName = token.value;

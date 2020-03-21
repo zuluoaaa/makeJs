@@ -53,17 +53,18 @@ function genAST(astNode,result=null){
         case ASTNodeTypes.T_INT:
              return astNode.value;
         case ASTNodeTypes.T_ADD:
+
             return leftResult + rightResult;
         case ASTNodeTypes.T_SUB:
             return leftResult - rightResult;
         case ASTNodeTypes.T_MUL:
+
             return leftResult * rightResult;
         case ASTNodeTypes.T_DIV:
             return leftResult / rightResult;
         case ASTNodeTypes.T_ASSIGN:
             return rightResult;
         case ASTNodeTypes.T_IDENT:
-            //todo
             return findVar(astNode.value);
         case ASTNodeTypes.T_LVALUE:
             return assignVal(astNode.value,result);

@@ -25,7 +25,8 @@ function assignVal(name,val,type) {
 }
 
 function findVar(name){
-    return currentScope.get(name)
+    console.log(currentScope.get(name),name,"ccccc")
+    return currentScope.get(name);
 }
 
 function deleteVar(name){
