@@ -15,7 +15,8 @@ Now support：
 * compares
 * if statement
 * while loop
- 
+* Function
+
 ```js
 let a;
 let b;
@@ -41,7 +42,6 @@ See <a href="https://github.com/zuluoaaa/makeJs/tree/master/test">the test folde
  
  # Future support:
  * For loop
- * Function
  * Object
  * ...
  
