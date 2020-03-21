@@ -10,10 +10,8 @@ function main(){
    init();
    scan();
    let astNodeTree = statement();
+   console.log(JSON.stringify(astNodeTree),"astNodeTree")
    genAST(astNodeTree);
-   
-   console.log(gVarMap);
-
    console.log("compiled finished");
 }
 

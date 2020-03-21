@@ -10,6 +10,12 @@ class Scope {
 
     add(name,obj){
         this.scope[name] = obj;
+        console.log(this.scope)
+    }
+    set(name,value,type){
+        this.scope[name].value = value;
+        this.scope[name].type = type;
+        console.log(this.scope)
     }
 
     get(name){
@@ -17,7 +23,7 @@ class Scope {
         let parent = this.parent;
         while (scope !== null){
             if(scope[name]){
-                return scope[name]
+                return scope[name].value;
             }
             scope = parent;
             if(parent){

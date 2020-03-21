@@ -8,11 +8,13 @@ function scanKeyword(str) {
     if(defineKeywords[str]){
         return defineKeywords[str];
     }
-    let nextToken = scan();
-    if(nextToken === tokenTypes.T_LPT){
+  /*  scan();
+    let nextToken = gData.token;
+
+    if(nextToken.type === tokenTypes.T_LPT){
         return tokenTypes.T_FUNCALL;
     }
-    putBackToken(nextToken);
+    putBackToken(nextToken);*/
     return tokenTypes.T_IDENT;
 }
 
@@ -96,6 +98,9 @@ function scan(){
         case "/":
             token.type = tokenTypes.T_DIV;
             break;
+        case ",":
+            token.type = tokenTypes.T_COMMA;
+            break;
         case "=":
             next = nextChar();
             if(next === "="){
@@ -165,14 +170,17 @@ function scan(){
             }
             errPrint(`Unrecognised char : (${value})`)
         }
+        console.log("token type :"+token.type);
+    return true;
 }
 
 function match(type,text){
+    console.log(gData.token.type,gData.token.value,type)
     if(gData.token.type === type){
         scan();
         return true
     }else{
-        errPrint(`Exception : ${text}`);
+        errPrint(`Exception : ${gData.token.type} !== ${type} : ${text}`);
     }
 }
 
@@ -201,7 +209,7 @@ function nextChar(){
 }
 
 function putBackToken(token) {
-    gData.nextToken = token;
+    gData.nextToken = JSON.parse(JSON.stringify(token));
 }
 function putBack(char){
     gData.putBack = char;
@@ -220,7 +228,7 @@ function leftPt(){
 }
 
 function rightPt(){
-    return match(tokenTypes.T_RPT,"}");
+    return match(tokenTypes.T_RPT,")");
 }
 
 function semicolon(){
@@ -234,5 +242,6 @@ module.exports = {
     rightBrace,
     leftPt,
     rightPt,
-    semicolon
+    semicolon,
+    putBackToken
 }

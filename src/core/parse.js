@@ -21,7 +21,6 @@ function varDeclaration() {
         if(token.type === tokenTypes.T_IDENT){
             addVar(token.value);
             scan();
-
             if(token.type === tokenTypes.T_SEMI){
                 break;
             }
@@ -29,17 +28,23 @@ function varDeclaration() {
             errPrint(`unknown error : token type: ${token.type}`);
         }
     }while (token.type === tokenTypes.T_COMMA && scan());
-    semicolon();
+    if(token.type === tokenTypes.T_SEMI){
+        semicolon();
+    }
+    //semicolon();
     //assignStatement();
 }
 
 function assignStatement() {
     let {token}  = gData;
     let right = new ASTNode().initLeafNode(ASTNodeTypes.T_LVALUE,token.value);
+
+
     match(tokenTypes.T_IDENT,"identifier");
     match(tokenTypes.T_ASSIGN,"assign");
     let left = parseExpression(0);
     let root = new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right,null);
+
     semicolon();
     return root;
 }
@@ -91,12 +96,12 @@ function funStatement(parentScope){
     let funName = token.value;
     match(tokenTypes.T_IDENT,"identifier");
 
-    leftPt();
     token.type = tokenTypes.T_VAR;
     statement(scope);
     rightPt();
 
     leftBrace();
+
     let funBody = statement();
     rightBrace();
 
@@ -108,14 +113,13 @@ function funStatement(parentScope){
 }
 
 function returnStatement(){
-
+    let {token}  = gData;
+    match(tokenTypes.T_RETURN,"return");
+    let returnTree = statement();
+    semicolon();
+    return returnTree;
 }
 
-function funCallStatement(){
-    let tree = parseExpression(0);
-    rightPt();
-    return tree;
-}
 
 function statement(scope){
     let tree = null,left = null;
@@ -142,9 +146,6 @@ function statement(scope){
                 funStatement(scope);
                 left = null;
                 break;
-            case tokenTypes.T_FUNCALL:
-                left = funCallStatement();
-                break;
             case tokenTypes.T_RETURN:
                 left = returnStatement();
                 break;
@@ -166,5 +167,5 @@ function statement(scope){
 }
 
 module.exports = {
-    statement
+    statement,
 }

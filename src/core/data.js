@@ -5,10 +5,12 @@ const {currentScope} = gData;
 
 
 function addVar(name) {
-    currentScope[name] = {
+    console.log(name,currentScope);
+    currentScope.add(name,{
         type:null,
         value:undefined,
-    };
+    })
+
 }
 
 function assignVal(name,val,type) {
@@ -16,18 +18,14 @@ function assignVal(name,val,type) {
         //todo
         //check the env was strict or normal
         //throw error if strict
-        currentScope[name] = {};
+        //currentScope[name] = {};
     }
-    currentScope[name].value = val;
-    currentScope[name].type = type;
+    currentScope.set(name,val,type);
     return val;
 }
 
 function findVar(name){
-    if(currentScope[name]){
-        return currentScope[name].value
-    }
-    return null;
+    return currentScope.get(name)
 }
 
 function deleteVar(name){
@@ -39,5 +37,5 @@ module.exports = {
     assignVal,
     findVar,
     deleteVar,
-    gVarMap
+
 }

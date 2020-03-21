@@ -1,15 +1,10 @@
 
-function f(x,y=5) {
-    let a = 1;
-    let b = x +5;
-    return a+b;
+function f(x,y) {
+    let a;
+    let b;
+    a = 3;
+    b = x-y;
 }
-
-
 let a,b;
-
-f(34);
-
-a = f(1+3*2,1,9)+1;
-
-b = f(1,a);
+a = f(1-5*3,2/4+3) + 9;
+b = f(1,4);

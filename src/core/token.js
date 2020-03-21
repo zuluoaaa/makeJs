@@ -110,9 +110,9 @@ const gData = {
     KEYWORD_MAX_LENGTH:512,
 
     gScope:new Scope(),
-    currentScope:this.gScope
+    currentScope:null
 };
-
+gData.currentScope = gData.gScope;
 
 
 module.exports = {
