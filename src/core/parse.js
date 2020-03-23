@@ -104,7 +104,7 @@ function funStatement(parentScope){
 
     let funBody = statement();
     rightBrace();
-
+    console.log( gData.currentScope,"?????????????????????")
     gData.currentScope = parentScope;
     let astNode = new ASTNode().initUnaryNode(ASTNodeTypes.T_FUN,funBody,null);
     addVar(funName);

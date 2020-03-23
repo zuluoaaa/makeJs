@@ -1,11 +1,11 @@
 const {gData,tokenTypes} = require("./token");
 const {errPrint} = require("../init/commons");
 
-const {currentScope} = gData;
+
 
 
 function addVar(name) {
-    console.log(name,currentScope);
+    const {currentScope} = gData;
     currentScope.add(name,{
         type:null,
         value:undefined,
@@ -14,6 +14,7 @@ function addVar(name) {
 }
 
 function assignVal(name,val,type) {
+    const {currentScope} = gData;
     if(!currentScope[name]){
         //todo
         //check the env was strict or normal
@@ -25,11 +26,13 @@ function assignVal(name,val,type) {
 }
 
 function findVar(name){
+    const {currentScope} = gData;
     console.log(currentScope.get(name),name,"ccccc")
     return currentScope.get(name);
 }
 
 function deleteVar(name){
+    const {currentScope} = gData;
     delete  currentScope[name];
 }
 
