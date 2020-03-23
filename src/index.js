@@ -9,7 +9,7 @@ function main(){
 
    init();
    scan();
-   let astNodeTree = statement(gData.gScope);
+   let astNodeTree = statement();
    console.log(JSON.stringify(astNodeTree),"astNodeTree");
    console.log(gData.gScope)
    genAST(astNodeTree);

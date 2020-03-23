@@ -8,19 +8,23 @@ const {match,
     rightPt,
     semicolon
 } = require("./scanner");
-const {addVar, assignVal} = require("./data");
 const {parseExpression} = require("./expression");
 const {primary,genAST} = require("./genAST");
 const {ASTNode} = require("./ASTnode");
-const {Scope} = require("./scope");
 
 function varDeclaration() {
     let {token}  = gData;
+    let tree=null,left=null;
     match(tokenTypes.T_VAR,"var");
     do{
         if(token.type === tokenTypes.T_IDENT){
-            addVar(token.value);
+            left = new ASTNode().initLeafNode(ASTNodeTypes.T_VAR,token.value);
             scan();
+            if(tree === null){
+                tree = left;
+            }else{
+                tree = new ASTNode().initTwoNode(ASTNodeTypes.T_GLUE,tree,left,null);
+            }
             if(token.type === tokenTypes.T_SEMI){
                 break;
             }
@@ -31,6 +35,7 @@ function varDeclaration() {
     if(token.type === tokenTypes.T_SEMI){
         semicolon();
     }
+    return tree;
     //semicolon();
     //assignStatement();
 }
@@ -86,30 +91,18 @@ function whileStatement() {
 }
 
 
-function funStatement(parentScope){
-
+function funStatement(){
     let {token}  = gData;
-    let scope = new Scope(parentScope);
-    gData.currentScope = scope;
-
     match(tokenTypes.T_FUN,"function");
     let funName = token.value;
     match(tokenTypes.T_IDENT,"identifier");
-
     token.type = tokenTypes.T_VAR;
-    statement(scope);
+    statement();
     rightPt();
-
     leftBrace();
-
     let funBody = statement();
     rightBrace();
-    console.log( gData.currentScope,"?????????????????????")
-    gData.currentScope = parentScope;
-    let astNode = new ASTNode().initUnaryNode(ASTNodeTypes.T_FUN,funBody,null);
-    addVar(funName);
-    assignVal(funName,astNode,ASTNodeTypes.T_FUN);
-
+    return new ASTNode().initUnaryNode(ASTNodeTypes.T_FUN,funBody,funName);
 }
 
 function returnStatement(){
@@ -121,14 +114,13 @@ function returnStatement(){
 }
 
 
-function statement(scope){
+function statement(){
     let tree = null,left = null;
     while (true){
         let {token}  = gData;
         switch (token.type) {
             case tokenTypes.T_VAR:
-                varDeclaration();
-                left = null;
+                left = varDeclaration();
                 break;
             case tokenTypes.T_IDENT:
                 left = assignStatement();
@@ -143,8 +135,7 @@ function statement(scope){
                 left = whileStatement();
                 break;
             case tokenTypes.T_FUN:
-                funStatement(scope);
-                left = null;
+                left = funStatement();
                 break;
             case tokenTypes.T_RETURN:
                 left = returnStatement();

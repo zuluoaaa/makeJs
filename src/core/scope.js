@@ -2,10 +2,11 @@
 let scopeId = 0;
 
 class Scope {
-    constructor(parent=null) {
+    constructor(parent=null,type="block") {
         this.scope = {};
         this.parent = parent;
         this.scopeId = scopeId++;
+        this.type = type;
     }
 
     add(name,obj){
