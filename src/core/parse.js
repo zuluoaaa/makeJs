@@ -97,18 +97,18 @@ function funStatement(){
     let funName = token.value;
     match(tokenTypes.T_IDENT,"identifier");
     token.type = tokenTypes.T_VAR;
-    statement();
+    let left = statement();
     rightPt();
     leftBrace();
     let funBody = statement();
     rightBrace();
-    return new ASTNode().initUnaryNode(ASTNodeTypes.T_FUN,funBody,funName);
+    return new ASTNode().initTwoNode(ASTNodeTypes.T_FUN,left,funBody,funName);
 }
 
 function returnStatement(){
     let {token}  = gData;
     match(tokenTypes.T_RETURN,"return");
-    let returnTree = statement();
+    let returnTree = parseExpression(0);
     semicolon();
     return returnTree;
 }

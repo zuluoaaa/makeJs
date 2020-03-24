@@ -180,7 +180,7 @@ function match(type,text){
         scan();
         return true
     }else{
-        errPrint(`Exception : ${gData.token.type} !== ${type} : ${text}`);
+        errPrint(`Exception : ${gData.token.type}(${gData.token.value}) !== ${type}(${text})`);
     }
 }
 
