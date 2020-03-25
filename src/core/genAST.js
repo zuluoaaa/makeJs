@@ -26,7 +26,7 @@ function genWhileAST(astNode) {
     }
 }
 
-function genAST(astNode,result=null){
+function genAST(astNode,result=null,scope){
     if(!astNode){
         return;
     }
@@ -50,15 +50,24 @@ function genAST(astNode,result=null){
     }
 
     switch (astNode.op) {
+        case ASTNodeTypes.T_VAR:
+            scope.add(astNode.value);
+            return;
+        case ASTNodeTypes.T_FUN:
+            scope.add(astNode.value);
+            scope.set(astNode.name,astNode,ASTNodeTypes.T_FUN);
+            return;
+        case ASTNodeTypes.T_FUNARGS:
+            //todo
+        case ASTNodeTypes.T_FUNCALL:
+            return genAST(scope.get(astNode.value),null,scope);
         case ASTNodeTypes.T_INT:
              return astNode.value;
         case ASTNodeTypes.T_ADD:
-
             return leftResult + rightResult;
         case ASTNodeTypes.T_SUB:
             return leftResult - rightResult;
         case ASTNodeTypes.T_MUL:
-
             return leftResult * rightResult;
         case ASTNodeTypes.T_DIV:
             return leftResult / rightResult;

@@ -9,11 +9,16 @@ class Scope {
         this.type = type;
     }
 
-    add(name,obj){
-        this.scope[name] = obj;
-        console.log(this.scope)
+    add(name){
+        this.scope[name] = {
+            value:undefined,
+            type:undefined
+        };
     }
     set(name,value,type){
+        if(!this.scope[name]){
+            this.scope[name] = {};
+        }
         this.scope[name].value = value;
         this.scope[name].type = type;
         console.log(this.scope)

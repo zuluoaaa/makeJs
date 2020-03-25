@@ -41,6 +41,7 @@ const T_UNDEFINED = "undefined";
 const T_BOOL = "BOOL";
 const T_INT = "number";
 const T_FUN = "function";
+const T_NATIVE_FUN = "native function";
 const T_FUNCALL = "execute function";
 const T_FUNARGS = "args";
 const T_RETURN = "return";
@@ -78,7 +79,7 @@ const ASTNodeTypes = {
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
     T_GLUE,T_WHILE,T_FOR,
-    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN
+    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN,T_NATIVE_FUN
 };
 
 class Token{

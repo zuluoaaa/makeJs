@@ -55,8 +55,9 @@ function assignStatement() {
 }
 
 function numberStatement() {
-    let left = primary();
-    //todo
+    let left = parseExpression(0);
+    semicolon();
+    return left;
 }
 
 function ifStatement() {
@@ -110,7 +111,7 @@ function returnStatement(){
     match(tokenTypes.T_RETURN,"return");
     let returnTree = parseExpression(0);
     semicolon();
-    return returnTree;
+    return new ASTNode().initUnaryNode(ASTNodeTypes.T_RETURN,returnTree,null);
 }
 
 

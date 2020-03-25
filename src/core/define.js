@@ -1,5 +1,4 @@
 const {gData,tokenTypes} = require("./token");
-const {gData,tokenTypes} = require("./token");
 
 const defineKeywords = {
     "let":tokenTypes.T_VAR,
