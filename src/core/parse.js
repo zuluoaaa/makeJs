@@ -8,8 +8,7 @@ const {match,
     rightPt,
     semicolon
 } = require("./scanner");
-const {parseExpression} = require("./expression");
-const {primary,genAST} = require("./genAST");
+const {parseExpression,prefixParserMap} = require("./expression");
 const {ASTNode} = require("./ASTnode");
 
 function varDeclaration() {
@@ -38,26 +37,6 @@ function varDeclaration() {
     return tree;
     //semicolon();
     //assignStatement();
-}
-
-function assignStatement() {
-    let {token}  = gData;
-    let right = new ASTNode().initLeafNode(ASTNodeTypes.T_LVALUE,token.value);
-
-
-    match(tokenTypes.T_IDENT,"identifier");
-    match(tokenTypes.T_ASSIGN,"assign");
-    let left = parseExpression(0);
-    let root = new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right,null);
-
-    semicolon();
-    return root;
-}
-
-function numberStatement() {
-    let left = parseExpression(0);
-    semicolon();
-    return left;
 }
 
 function ifStatement() {
@@ -91,7 +70,6 @@ function whileStatement() {
     return new ASTNode().initTwoNode(ASTNodeTypes.T_WHILE,condition,body,null);
 }
 
-
 function funStatement(){
     let {token}  = gData;
     match(tokenTypes.T_FUN,"function");
@@ -114,6 +92,9 @@ function returnStatement(){
     return new ASTNode().initUnaryNode(ASTNodeTypes.T_RETURN,returnTree,null);
 }
 
+function normalStatement() {
+    return parseExpression(0);
+}
 
 function statement(){
     let tree = null,left = null;
@@ -122,12 +103,6 @@ function statement(){
         switch (token.type) {
             case tokenTypes.T_VAR:
                 left = varDeclaration();
-                break;
-            case tokenTypes.T_IDENT:
-                left = assignStatement();
-                break;
-            case tokenTypes.T_INT:
-                left = numberStatement();
                 break;
             case tokenTypes.T_IF:
                 left = ifStatement();
@@ -146,7 +121,11 @@ function statement(){
             case tokenTypes.T_RPT:
                 return tree;
             default:
-                errPrint(`unknown Syntax:${token.type} , at ${gData.line} line`)
+                if(prefixParserMap[token.type]){
+                    left = normalStatement();
+                }else{
+                    errPrint(`unknown Syntax:${token.type} , at ${gData.line} line`)
+                }
         }
         if(left !== null){
             if(tree === null){

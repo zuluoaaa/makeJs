@@ -5,6 +5,10 @@ const T_SUB = "-";
 const T_MUL = "*";
 const T_DIV = "/";
 
+const T_QST = "?";
+const T_COL = ":";
+
+
 const T_GT = ">";
 const T_GE = ">=";
 const T_LT = "<";
@@ -56,14 +60,30 @@ const T_GLUE = "_glue";
 
 const precedenceList = {
     "":0,
+    assign:1,
+    condition:2,
+
+    compare:3,
+
+    sum:4,
+    product:5,
+    prefix:6,
+    postfix:7,
+    call:8,
+
+    "=":1,"?":3,
     ">":5,">=":5,"<":5,"<=":5,"==":5,"!=":5,
     "+":10, "-":10,
     "*":20,"/":20,
+    "!":25,
+    "(":30,
 };
+
 
 
 const tokenTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
+    T_QST,T_COL,
     T_ASSIGN, T_INT, T_VAR, T_IDENT,
     T_EOF, T_SEMI,T_COMMA,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
