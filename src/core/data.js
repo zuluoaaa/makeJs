@@ -4,36 +4,25 @@ const {errPrint} = require("../init/commons");
 
 
 
-function addVar(name) {
-    const {currentScope} = gData;
-    currentScope.add(name,{
+function addVar(name,scope) {
+    scope.add(name,{
         type:null,
         value:undefined,
     })
 
 }
 
-function assignVal(name,val,type) {
-    const {currentScope} = gData;
-    if(!currentScope[name]){
-        //todo
-        //check the env was strict or normal
-        //throw error if strict
-        //currentScope[name] = {};
-    }
-    currentScope.set(name,val,type);
+function assignVal(name,val,scope) {
+    scope.set(name,val);
     return val;
 }
 
-function findVar(name){
-    const {currentScope} = gData;
-    console.log(currentScope.get(name),name,"ccccc")
-    return currentScope.get(name);
+function findVar(name,scope){
+    return scope.get(name);
 }
 
-function deleteVar(name){
-    const {currentScope} = gData;
-    delete  currentScope[name];
+function deleteVar(name,scope){
+    //todo
 }
 
 module.exports = {

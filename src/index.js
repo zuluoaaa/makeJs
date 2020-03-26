@@ -11,9 +11,9 @@ function main(){
    scan();
    let astNodeTree = statement();
    console.log(JSON.stringify(astNodeTree),"astNodeTree");
-   //genAST(astNodeTree,null,gData.gScope);
+   genAST(astNodeTree,null,gData.gScope);
 
-   gData.gScope.set("log",console.log,ASTNodeTypes.T_NATIVE_FUN);
+   //gData.gScope.set("log",console.log,ASTNodeTypes.T_NATIVE_FUN);
 
    console.log(gData.gScope)
 

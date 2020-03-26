@@ -31,6 +31,7 @@ const infixParserMap = {
 
 function getPrecedence(){
     let {token} = gData;
+    console.log(token.type,"getttttttttttttt")
     let infix = infixParserMap[token.type];
     return infix.precedence;
 }
@@ -40,17 +41,27 @@ function parseExpression(precedenceValue) {
 
     let prefixParser = prefixParserMap[token.type];
     if(!prefixParser){
-        errPrint(`unknown token : ${token.value}`)
+        errPrint(`unknown token : ${token.value}（${token.type}）`)
     }
-
     let left = prefixParser();
     scan();
-    if(token.type === tokenTypes.T_SEMI){
+    if(token.type === tokenTypes.T_SEMI
+        || token.type === tokenTypes.T_RPT
+        || token.type === tokenTypes.T_EOF
+        || token.type === tokenTypes.T_COMMA
+    ){
         return left;
     }
     let value = getPrecedence();
     while (value>precedenceValue){
         let type = token.type;
+        if(token.type === tokenTypes.T_SEMI
+            || token.type === tokenTypes.T_RPT
+            || token.type === tokenTypes.T_EOF
+            || token.type === tokenTypes.T_COMMA
+        ){
+            return left;
+        }
         let infix = infixParserMap[type];
         scan();
         left = infix.parser(left,type);
@@ -125,7 +136,8 @@ function int() {
 
 function assign(left){
     let right = parseExpression(0);
-    return new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right,null);
+    left.op = ASTNodeTypes.T_LVALUE;
+    return new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,right,left,null);
 }
 
 function condition(left){
@@ -136,28 +148,29 @@ function condition(left){
 }
 
 function group(){
-    let exp = parseExpression(0);
-    match(tokenTypes.T_RPT,")");
-    return exp;
+    scan();
+    return parseExpression(0);
 }
 
 function funCall(left,type){
     let { token } = gData;
     let args = [];
     let astNode = new ASTNode().initLeafNode(ASTNodeTypes.T_FUNARGS,args);
-    scan();
     while (token.type !== tokenTypes.T_RPT){
         let tree = parseExpression(0);
         args.push(tree);
+
         if(token.type !== tokenTypes.T_COMMA && token.type !== tokenTypes.T_RPT){
             errPrint(`unknown Syntax token : ${token.type} : value : ${token.value}`);
         }
         if(token.type === tokenTypes.T_RPT){
+            scan();
             break;
+        }else{
+            scan();
         }
-        scan();
     }
-    match(tokenTypes.T_RPT,")");
+    //match(tokenTypes.T_RPT,")");
     return new ASTNode().initUnaryNode(ASTNodeTypes.T_FUNCALL,astNode,left.value);
 }
 

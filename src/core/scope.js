@@ -7,6 +7,7 @@ class Scope {
         this.parent = parent;
         this.scopeId = scopeId++;
         this.type = type;
+        this.returnValue = null;
     }
 
     add(name){
@@ -21,7 +22,6 @@ class Scope {
         }
         this.scope[name].value = value;
         this.scope[name].type = type;
-        console.log(this.scope)
     }
 
     get(name){

@@ -170,12 +170,10 @@ function scan(){
             }
             errPrint(`Unrecognised char : (${value})`)
         }
-        console.log("token type :"+token.type);
     return true;
 }
 
 function match(type,text){
-    console.log(gData.token.type,gData.token.value,type)
     if(gData.token.type === type){
         scan();
         return true

@@ -48,6 +48,7 @@ const T_FUN = "function";
 const T_NATIVE_FUN = "native function";
 const T_FUNCALL = "execute function";
 const T_FUNARGS = "args";
+const T_ARGUMENT = "argument";
 const T_RETURN = "return";
 
 const T_IF = "if";
@@ -62,21 +63,12 @@ const precedenceList = {
     "":0,
     assign:1,
     condition:2,
-
     compare:3,
-
     sum:4,
     product:5,
     prefix:6,
     postfix:7,
     call:8,
-
-    "=":1,"?":3,
-    ">":5,">=":5,"<":5,"<=":5,"==":5,"!=":5,
-    "+":10, "-":10,
-    "*":20,"/":20,
-    "!":25,
-    "(":30,
 };
 
 
@@ -89,7 +81,7 @@ const tokenTypes = {
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF, T_ELSE,T_LPT, T_RPT, T_LBR, T_RBR,
     T_WHILE,T_FOR,
-    T_FUN,T_FUNCALL,T_RETURN
+    T_FUN,T_FUNCALL,T_RETURN,T_ARGUMENT
 };
 
 const ASTNodeTypes = {
@@ -99,7 +91,7 @@ const ASTNodeTypes = {
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
     T_GLUE,T_WHILE,T_FOR,
-    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN,T_NATIVE_FUN
+    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN,T_NATIVE_FUN,T_ARGUMENT
 };
 
 class Token{

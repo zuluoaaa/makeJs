@@ -14,10 +14,16 @@ const {ASTNode} = require("./ASTnode");
 function varDeclaration() {
     let {token}  = gData;
     let tree=null,left=null;
-    match(tokenTypes.T_VAR,"var");
+    let type = token.type === tokenTypes.T_ARGUMENT ?  ASTNodeTypes.T_ARGUMENT : ASTNodeTypes.T_VAR;
+    let index = 0;
+    scan();
     do{
         if(token.type === tokenTypes.T_IDENT){
-            left = new ASTNode().initLeafNode(ASTNodeTypes.T_VAR,token.value);
+            left = new ASTNode().initLeafNode(type,token.value);
+            if(type === tokenTypes.T_ARGUMENT){
+                left.option = index;
+                ++index;
+            }
             scan();
             if(tree === null){
                 tree = left;
@@ -75,7 +81,7 @@ function funStatement(){
     match(tokenTypes.T_FUN,"function");
     let funName = token.value;
     match(tokenTypes.T_IDENT,"identifier");
-    token.type = tokenTypes.T_VAR;
+    token.type = tokenTypes.T_ARGUMENT;
     let left = statement();
     rightPt();
     leftBrace();
@@ -93,7 +99,9 @@ function returnStatement(){
 }
 
 function normalStatement() {
-    return parseExpression(0);
+    let tree =  parseExpression(0);
+    semicolon();
+    return tree;
 }
 
 function statement(){
@@ -102,6 +110,7 @@ function statement(){
         let {token}  = gData;
         switch (token.type) {
             case tokenTypes.T_VAR:
+            case tokenTypes.T_ARGUMENT:
                 left = varDeclaration();
                 break;
             case tokenTypes.T_IF:
