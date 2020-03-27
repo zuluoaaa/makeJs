@@ -8,10 +8,10 @@ const {Scope} = require("./scope");
 function genIfAST(astNode,scope) {
     let state = genAST(astNode.left,null,scope);
     if(state){
-        genAST(astNode.mid,null,scope);
+        return genAST(astNode.mid,null,scope);
     }else{
         if(astNode.right){
-            genAST(astNode.right,null,scope);
+            return genAST(astNode.right,null,scope);
         }
     }
 }
@@ -102,8 +102,15 @@ function genAST(astNode,result=null,scope){
         case ASTNodeTypes.T_INT:
             return astNode.value;
         case ASTNodeTypes.T_ADD:
+            if(rightResult === null || typeof rightResult === "undefined"){
+                return leftResult;
+            }
             return leftResult + rightResult;
         case ASTNodeTypes.T_SUB:
+
+            if(rightResult === null || typeof rightResult === "undefined"){
+                return -leftResult;
+            }
             return leftResult - rightResult;
         case ASTNodeTypes.T_MUL:
             return leftResult * rightResult;

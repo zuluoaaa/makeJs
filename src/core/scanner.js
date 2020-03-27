@@ -154,6 +154,12 @@ function scan(){
         case "}":
             token.type = tokenTypes.T_RBR;
             break;
+        case "?":
+            token.type = tokenTypes.T_QST;
+            break;
+        case ":":
+            token.type = tokenTypes.T_COL;
+            break;
             //todo
 
         default:

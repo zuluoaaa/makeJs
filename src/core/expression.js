@@ -7,8 +7,8 @@ const prefixParserMap = {
     [tokenTypes.T_IDENT]:identifier,
     [tokenTypes.T_INT]:int,
     [tokenTypes.T_LPT]:group,
-    [tokenTypes.T_ADD]:prefix,
-    [tokenTypes.T_SUB]:prefix,
+    [tokenTypes.T_ADD]:prefix.bind(null,tokenTypes.T_ADD),
+    [tokenTypes.T_SUB]:prefix.bind(null,tokenTypes.T_SUB),
 };
 
 const infixParserMap = {
@@ -31,8 +31,8 @@ const infixParserMap = {
 
 function getPrecedence(){
     let {token} = gData;
-    console.log(token.type,"getttttttttttttt")
     let infix = infixParserMap[token.type];
+    console.log(token)
     return infix.precedence;
 }
 
@@ -43,15 +43,18 @@ function parseExpression(precedenceValue) {
     if(!prefixParser){
         errPrint(`unknown token : ${token.value}（${token.type}）`)
     }
+
     let left = prefixParser();
     scan();
     if(token.type === tokenTypes.T_SEMI
         || token.type === tokenTypes.T_RPT
         || token.type === tokenTypes.T_EOF
         || token.type === tokenTypes.T_COMMA
+        || token.type === tokenTypes.T_COL
     ){
         return left;
     }
+    console.log(left,"?")
     let value = getPrecedence();
     while (value>precedenceValue){
         let type = token.type;
@@ -65,7 +68,12 @@ function parseExpression(precedenceValue) {
         let infix = infixParserMap[type];
         scan();
         left = infix.parser(left,type);
+
+        if(infixParserMap[token.type]){
+            value = getPrecedence();
+        }
     }
+
     return left;
 }
 
@@ -141,6 +149,7 @@ function assign(left){
 }
 
 function condition(left){
+
     let  trueBody = parseExpression(0);
     match(tokenTypes.T_COL,":");
     let  falseBody = parseExpression(precedenceList.condition-1);
@@ -175,7 +184,9 @@ function funCall(left,type){
 }
 
 function prefix(type){
+    scan();
     let right = parseExpression(precedenceList.prefix);
+    putBackToken(gData.token);
     return new ASTNode().initUnaryNode(type,right,null);
 }
 
