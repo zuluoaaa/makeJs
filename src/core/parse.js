@@ -13,13 +13,14 @@ const {ASTNode} = require("./ASTnode");
 
 function varDeclaration() {
     let {token}  = gData;
-    let tree=null,left=null;
+    let tree=null,left=null,lastTokenValue;
     let type = token.type === tokenTypes.T_ARGUMENT ?  ASTNodeTypes.T_ARGUMENT : ASTNodeTypes.T_VAR;
     let index = 0;
     scan();
     do{
         if(token.type === tokenTypes.T_IDENT){
             left = new ASTNode().initLeafNode(type,token.value);
+            lastTokenValue = token.value;
             if(type === tokenTypes.T_ARGUMENT){
                 left.option = index;
                 ++index;
@@ -37,12 +38,18 @@ function varDeclaration() {
             errPrint(`unknown error : token type: ${token.type}`);
         }
     }while (token.type === tokenTypes.T_COMMA && scan());
+
+    if(token.type === tokenTypes.T_ASSIGN){
+        scan();
+        let right = new ASTNode().initLeafNode(ASTNodeTypes.T_LVALUE,lastTokenValue);
+        let left = normalStatement();
+        let assignTree = new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right,null);
+        tree = new ASTNode().initTwoNode(ASTNodeTypes.T_GLUE,tree,assignTree,null);
+    }
     if(token.type === tokenTypes.T_SEMI){
         semicolon();
     }
     return tree;
-    //semicolon();
-    //assignStatement();
 }
 
 function ifStatement() {

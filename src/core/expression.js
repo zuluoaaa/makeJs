@@ -77,60 +77,6 @@ function parseExpression(precedenceValue) {
     return left;
 }
 
-function primary() {
-    let asTnode = new ASTNode();
-    let {token} = gData;
-
-    switch (token.type) {
-        case ASTNodeTypes.T_INT:
-            asTnode.initLeafNode(token.type,token.value);
-            break;
-        case ASTNodeTypes.T_IDENT:
-            let name = token.value;
-            let originToken = JSON.parse(JSON.stringify(token));
-            scan();
-            if(token.type === tokenTypes.T_LPT){
-                token.type = tokenTypes.T_FUNCALL;
-                token.value = name;
-                return funCallStatement();
-            }
-            putBackToken(token);
-            asTnode.initLeafNode(originToken.type,originToken.value);
-            break;
-        case ASTNodeTypes.T_FUNCALL:
-            let funName = token.value;
-            return asTnode.initUnaryNode(token.type,funArgs(),funName);
-        default:
-            errPrint(`unknown Syntax token : ${token.type} : value : ${token.value}`)
-    }
-    scan();
-    return asTnode;
-}
-function funCallStatement(){
-    let {token}  = gData;
-    let tree = parseExpression(0);
-    rightPt();
-    return tree;
-}
-function funArgs() {
-    let {token} = gData;
-    let args = [];
-    let astNode = new ASTNode().initLeafNode(ASTNodeTypes.T_FUNARGS,args);
-    scan();
-    while (token.type !== tokenTypes.T_RPT){
-        let tree = parseExpression(0);
-        args.push(tree);
-        if(token.type !== tokenTypes.T_COMMA && token.type !== tokenTypes.T_RPT){
-            errPrint(`unknown Syntax token : ${token.type} : value : ${token.value}`);
-        }
-        if(token.type === tokenTypes.T_RPT){
-            break;
-        }
-        scan();
-    }
-    //match(tokenTypes.T_RPT,")");
-    return astNode;
-}
 
 
 function identifier(){
@@ -179,7 +125,6 @@ function funCall(left,type){
             scan();
         }
     }
-    //match(tokenTypes.T_RPT,")");
     return new ASTNode().initUnaryNode(ASTNodeTypes.T_FUNCALL,astNode,left.value);
 }
 
@@ -196,7 +141,17 @@ function infix(precedence,left,type){
     return new ASTNode().initTwoNode(type,left,right,null);
 }
 
+function string(){
 
+}
+
+function nul(){
+
+}
+
+function undef(){
+    
+}
 
 module.exports = {
     parseExpression,

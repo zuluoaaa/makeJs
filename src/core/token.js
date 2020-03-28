@@ -16,8 +16,8 @@ const T_LE = "<=";
 const T_EQ = "==";
 const T_NEQ = "!=";
 
-const T_AND = "&&";
-const T_OR = "||";
+const T_AND = "&&";//todo
+const T_OR = "||";//todo
 
 
 const T_EOF = "";
@@ -43,6 +43,7 @@ const T_STRING = "string";
 const T_NULL = "null";
 const T_UNDEFINED = "undefined";
 const T_BOOL = "BOOL";
+
 const T_INT = "number";
 const T_FUN = "function";
 const T_NATIVE_FUN = "native function";
@@ -76,12 +77,13 @@ const precedenceList = {
 const tokenTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_QST,T_COL,
-    T_ASSIGN, T_INT, T_VAR, T_IDENT,
+    T_ASSIGN, T_VAR, T_IDENT,
     T_EOF, T_SEMI,T_COMMA,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF, T_ELSE,T_LPT, T_RPT, T_LBR, T_RBR,
     T_WHILE,T_FOR,
-    T_FUN,T_FUNCALL,T_RETURN,T_ARGUMENT
+    T_FUN,T_FUNCALL,T_RETURN,T_ARGUMENT,
+    T_INT,T_STRING,T_NULL,T_UNDEFINED,T_BOOL,T_OBJECT
 };
 
 const ASTNodeTypes = {
