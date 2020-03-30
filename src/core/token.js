@@ -36,6 +36,7 @@ const T_LBR = "{";
 const T_RBR = "}";
 
 
+
 const T_OBJECT = "[object object]";
 const T_ARRAY = "array";
 
@@ -88,7 +89,7 @@ const tokenTypes = {
 
 const ASTNodeTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
-    T_VAR,T_ASSIGN,T_INT,T_IDENT,
+    T_VAR,T_ASSIGN,T_INT,T_IDENT,T_STRING,T_NULL,T_UNDEFINED,T_BOOL,T_OBJECT,
     T_LVALUE,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,

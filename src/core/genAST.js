@@ -101,6 +101,8 @@ function genAST(astNode,result=null,scope){
             return scope.returnValue;
         case ASTNodeTypes.T_INT:
             return astNode.value;
+        case ASTNodeTypes.T_STRING:
+            return astNode.value;
         case ASTNodeTypes.T_ADD:
             if(rightResult === null || typeof rightResult === "undefined"){
                 return leftResult;

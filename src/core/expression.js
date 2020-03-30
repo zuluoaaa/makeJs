@@ -6,6 +6,7 @@ const {ASTNode} = require("./ASTnode");
 const prefixParserMap = {
     [tokenTypes.T_IDENT]:identifier,
     [tokenTypes.T_INT]:int,
+    [tokenTypes.T_STRING]:str,
     [tokenTypes.T_LPT]:group,
     [tokenTypes.T_ADD]:prefix.bind(null,tokenTypes.T_ADD),
     [tokenTypes.T_SUB]:prefix.bind(null,tokenTypes.T_SUB),
@@ -86,6 +87,11 @@ function identifier(){
 function int() {
     let {token} = gData;
     return new ASTNode().initLeafNode(ASTNodeTypes.T_INT,token.value);
+}
+
+function str() {
+    let {token} = gData;
+    return new ASTNode().initLeafNode(ASTNodeTypes.T_STRING,token.value);
 }
 
 function assign(left){

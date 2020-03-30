@@ -18,6 +18,22 @@ function scanKeyword(str) {
     return tokenTypes.T_IDENT;
 }
 
+function scanStr(endStr) {
+    let s = "";
+    let c = nextChar();
+    while (true){
+        if(c === endStr) {
+            break;
+        }
+        if(c === "\\"){
+            c = nextChar();
+        }
+        s += c;
+        c = nextChar();
+    }
+
+    return s;
+}
 
 function scanIdent(s) {
     let str = s;
@@ -160,7 +176,14 @@ function scan(){
         case ":":
             token.type = tokenTypes.T_COL;
             break;
-            //todo
+        case "\"":
+            token.type = tokenTypes.T_STRING;
+            token.value = scanStr("\"");
+            break;
+        case "\'":
+            token.type = tokenTypes.T_STRING;
+            token.value = scanStr("\'");
+            break;
 
         default:
             if(validNumber(value)){
