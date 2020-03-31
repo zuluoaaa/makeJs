@@ -19,7 +19,6 @@ class ASTNode{
     }
 
     initUnaryNode(op,left,value){
-        console.log({op,left,value})
         this.left = left;
         return this.initLeafNode(op,value);
     }

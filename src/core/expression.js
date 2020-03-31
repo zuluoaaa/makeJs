@@ -33,7 +33,6 @@ const infixParserMap = {
 function getPrecedence(){
     let {token} = gData;
     let infix = infixParserMap[token.type];
-    console.log(token)
     return infix.precedence;
 }
 
@@ -55,7 +54,6 @@ function parseExpression(precedenceValue) {
     ){
         return left;
     }
-    console.log(left,"?")
     let value = getPrecedence();
     while (value>precedenceValue){
         let type = token.type;

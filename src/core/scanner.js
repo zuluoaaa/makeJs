@@ -207,7 +207,8 @@ function match(type,text){
         scan();
         return true
     }else{
-        errPrint(`Exception : ${gData.token.type}(${gData.token.value}) !== ${type}(${text})`);
+        console.log(`Exception : ${gData.token.type}(${gData.token.value}) !== ${type}(${text})`);
+        errPrint(`Uncaught SyntaxError: Invalid or unexpected token`);
     }
 }
 

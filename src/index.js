@@ -1,7 +1,7 @@
 const {init} = require("./init/init")
 const {scan} = require("./core/scanner");
 const {statement} = require("./core/parse");
-const {genAST} = require("./core/genAST");
+const {interpretAST} = require("./core/interpreter");
 const {gData,ASTNodeTypes} = require("./core/token");
 function main(){
 
@@ -11,12 +11,12 @@ function main(){
    scan();
    let astNodeTree = statement();
    console.log(JSON.stringify(astNodeTree),"astNodeTree");
-   genAST(astNodeTree,null,gData.gScope);
+   interpretAST(astNodeTree,null,gData.gScope);
 
    //gData.gScope.set("log",console.log,ASTNodeTypes.T_NATIVE_FUN);
 
    console.log(gData.gScope)
-
+   debugger;
    console.log("compiled finished");
 }
 
