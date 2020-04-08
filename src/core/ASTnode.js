@@ -8,7 +8,6 @@ class ASTNode{
         this.mid = null;
         this.op = null;
         this.value = null;
-        this.type = null;
         this.option = null;
     }
 

@@ -4,7 +4,7 @@
  * @returns {boolean}
  */
 function validVar(char) {
-    let reg = /[a-z]|[A-Z]|_/;
+    let reg = /[a-z]|[A-Z]|_|$/;
     return reg.test(char);
 }
 
