@@ -100,6 +100,8 @@ function interpretAST(astNode,result=null,scope){
             return astNode.value;
         case ASTNodeTypes.T_STRING:
             return astNode.value;
+        case ASTNodeTypes.T_ARRAY:
+            return astNode.value;
         case ASTNodeTypes.T_ADD:
             if(rightResult === null || typeof rightResult === "undefined"){
                 return leftResult;

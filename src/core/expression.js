@@ -8,6 +8,7 @@ const prefixParserMap = {
     [tokenTypes.T_INT]:int,
     [tokenTypes.T_STRING]:str,
     [tokenTypes.T_LPT]:group,
+    [tokenTypes.T_LMBR]:array,
     [tokenTypes.T_ADD]:prefix.bind(null,tokenTypes.T_ADD),
     [tokenTypes.T_SUB]:prefix.bind(null,tokenTypes.T_SUB),
 };
@@ -40,6 +41,7 @@ function parseExpression(precedenceValue) {
     let {token} = gData;
 
     let prefixParser = prefixParserMap[token.type];
+
     if(!prefixParser){
         errPrint(`unknown token : ${token.value}（${token.type}）`)
     }
@@ -51,6 +53,7 @@ function parseExpression(precedenceValue) {
         || token.type === tokenTypes.T_EOF
         || token.type === tokenTypes.T_COMMA
         || token.type === tokenTypes.T_COL
+        || token.type === tokenTypes.T_RMBR
     ){
         return left;
     }
@@ -76,12 +79,11 @@ function parseExpression(precedenceValue) {
     return left;
 }
 
-
-
 function identifier(){
     let {token} = gData;
     return new ASTNode().initLeafNode(ASTNodeTypes.T_IDENT,token.value);
 }
+
 function int() {
     let {token} = gData;
     return new ASTNode().initLeafNode(ASTNodeTypes.T_INT,token.value);
@@ -145,9 +147,21 @@ function infix(precedence,left,type){
     return new ASTNode().initTwoNode(type,left,right,null);
 }
 
-function string(){
-
+function array() {
+    let { token } = gData;
+    scan();
+    let arr = [];
+    do{
+        if(token.type === tokenTypes.T_RMBR){
+            scan();
+            break;
+        }
+        let exp = parseExpression() || undefined;
+        arr.push(exp);
+    }while (token.type === tokenTypes.T_COMMA && scan());
+    return new ASTNode().initLeafNode(ASTNodeTypes.T_ARRAY,arr);
 }
+
 
 function nul(){
 

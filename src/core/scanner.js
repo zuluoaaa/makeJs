@@ -170,6 +170,12 @@ function scan(){
         case "}":
             token.type = tokenTypes.T_RBR;
             break;
+        case "[":
+            token.type = tokenTypes.T_LMBR;
+            break;
+        case "]":
+            token.type = tokenTypes.T_RMBR;
+            break;
         case "?":
             token.type = tokenTypes.T_QST;
             break;
