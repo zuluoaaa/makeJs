@@ -40,6 +40,7 @@ const T_RMBR = "]";
 
 const T_OBJECT = "[object object]";
 const T_ARRAY = "array";
+const T_VISIT = "visit key";
 
 const T_STRING = "string";
 const T_NULL = "null";
@@ -95,7 +96,7 @@ const ASTNodeTypes = {
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
     T_GLUE,T_WHILE,T_FOR,
-    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN,T_NATIVE_FUN,T_ARGUMENT,T_ARRAY
+    T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN,T_NATIVE_FUN,T_ARGUMENT,T_ARRAY,T_VISIT
 };
 
 class Token{

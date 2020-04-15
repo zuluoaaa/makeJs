@@ -135,7 +135,8 @@ function interpretAST(astNode,result=null,scope){
             return  leftResult === rightResult;
         case ASTNodeTypes.T_NEQ:
             return  leftResult !== rightResult;
-
+        case ASTNodeTypes.T_VISIT:
+            return  leftResult[rightResult].value;
         default:
             errPrint(`unknown ASTNode op : ${astNode.op}`);
     }

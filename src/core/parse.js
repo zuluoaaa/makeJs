@@ -20,7 +20,7 @@ function varDeclaration() {
     do{
         if(token.type === tokenTypes.T_IDENT){
             left = new ASTNode().initLeafNode(type,token.value);
-            lastTokenValue = token.value;
+            lastTokenValue = left;
             if(type === tokenTypes.T_ARGUMENT){
                 left.option = index;
                 ++index;
@@ -41,7 +41,9 @@ function varDeclaration() {
 
     if(token.type === tokenTypes.T_ASSIGN){
         scan();
-        let right = new ASTNode().initLeafNode(ASTNodeTypes.T_LVALUE,lastTokenValue);
+        lastTokenValue = JSON.parse(JSON.stringify(lastTokenValue));
+        lastTokenValue.op = ASTNodeTypes.T_IDENT;
+        let right = new ASTNode().initUnaryNode(ASTNodeTypes.T_LVALUE,lastTokenValue,null);
         let left = normalStatement();
         let assignTree = new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right,null);
         tree = new ASTNode().initTwoNode(ASTNodeTypes.T_GLUE,tree,assignTree,null);

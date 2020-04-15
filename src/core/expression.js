@@ -33,6 +33,7 @@ const infixParserMap = {
 
 function getPrecedence(){
     let {token} = gData;
+    console.log(token.type,"????????????")
     let infix = infixParserMap[token.type];
     return infix.precedence;
 }
@@ -48,6 +49,7 @@ function parseExpression(precedenceValue) {
 
     let left = prefixParser();
     scan();
+    console.log(left,token,"hey")
     if(token.type === tokenTypes.T_SEMI
         || token.type === tokenTypes.T_RPT
         || token.type === tokenTypes.T_EOF
@@ -64,6 +66,7 @@ function parseExpression(precedenceValue) {
             || token.type === tokenTypes.T_RPT
             || token.type === tokenTypes.T_EOF
             || token.type === tokenTypes.T_COMMA
+            || token.type === tokenTypes.T_RMBR
         ){
             return left;
         }
@@ -81,7 +84,15 @@ function parseExpression(precedenceValue) {
 
 function identifier(){
     let {token} = gData;
-    return new ASTNode().initLeafNode(ASTNodeTypes.T_IDENT,token.value);
+    let indent = new ASTNode().initLeafNode(ASTNodeTypes.T_IDENT,token.value);
+    scan();
+    if(token.type === tokenTypes.T_LMBR){
+        scan();
+        let right = parseExpression(0);
+        return new ASTNode().initTwoNode(ASTNodeTypes.T_VISIT,indent,right,null);
+    }
+    putBackToken(token);
+    return indent;
 }
 
 function int() {
@@ -96,7 +107,7 @@ function str() {
 
 function assign(left){
     let right = parseExpression(0);
-    left.op = ASTNodeTypes.T_LVALUE;
+    left = new ASTNode().initUnaryNode(ASTNodeTypes.T_LVALUE,left,null);
     return new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,right,left,null);
 }
 
