@@ -88,8 +88,10 @@ function identifier(){
     scan();
     if(token.type === tokenTypes.T_LMBR){
         scan();
-        let right = parseExpression(0);
-        return new ASTNode().initTwoNode(ASTNodeTypes.T_VISIT,indent,right,null);
+        let left = parseExpression(0);
+        indent.op = ASTNodeTypes.T_VISIT;
+        indent.left = left;
+        return indent;
     }
     putBackToken(token);
     return indent;
@@ -107,7 +109,7 @@ function str() {
 
 function assign(left){
     let right = parseExpression(0);
-    left = new ASTNode().initUnaryNode(ASTNodeTypes.T_LVALUE,left,null);
+    left = new ASTNode().initUnaryNode(ASTNodeTypes.T_LVALUE,left,left.value);
     return new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,right,left,null);
 }
 
@@ -128,6 +130,7 @@ function funCall(left,type){
     let { token } = gData;
     let args = [];
     let astNode = new ASTNode().initLeafNode(ASTNodeTypes.T_FUNARGS,args);
+
     while (token.type !== tokenTypes.T_RPT){
         let tree = parseExpression(0);
         args.push(tree);
@@ -141,6 +144,9 @@ function funCall(left,type){
         }else{
             scan();
         }
+    }
+    if(token.type === tokenTypes.T_RPT){
+        scan();
     }
     return new ASTNode().initUnaryNode(ASTNodeTypes.T_FUNCALL,astNode,left.value);
 }

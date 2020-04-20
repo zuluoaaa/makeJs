@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node src/index.js -i ./test/test11.js"
+    "all": "node test/run.js",
+    "test": "node src/index.js -i ./test/test12.js"
   },
   "repository": {
     "type": "git",

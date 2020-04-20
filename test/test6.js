@@ -1,10 +1,10 @@
 
-function f(x,y) {
+function fn111(x,y) {
     let fa;
     fa = 1;
     return fa + x +y;
 }
 let a;
-a = f(1,4);
+a = fn111(1,4);
 
 

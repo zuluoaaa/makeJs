@@ -108,7 +108,6 @@ function interpretAST(astNode,result=null,scope){
             }
             return leftResult + rightResult;
         case ASTNodeTypes.T_SUB:
-
             if(rightResult === null || typeof rightResult === "undefined"){
                 return -leftResult;
             }
@@ -136,7 +135,7 @@ function interpretAST(astNode,result=null,scope){
         case ASTNodeTypes.T_NEQ:
             return  leftResult !== rightResult;
         case ASTNodeTypes.T_VISIT:
-            return  leftResult[rightResult].value;
+            return  findVar(astNode.value,scope)[leftResult].value;
         default:
             errPrint(`unknown ASTNode op : ${astNode.op}`);
     }

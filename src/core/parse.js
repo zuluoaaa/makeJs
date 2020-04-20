@@ -41,9 +41,7 @@ function varDeclaration() {
 
     if(token.type === tokenTypes.T_ASSIGN){
         scan();
-        lastTokenValue = JSON.parse(JSON.stringify(lastTokenValue));
-        lastTokenValue.op = ASTNodeTypes.T_IDENT;
-        let right = new ASTNode().initUnaryNode(ASTNodeTypes.T_LVALUE,lastTokenValue,null);
+        let right = new ASTNode().initLeafNode(ASTNodeTypes.T_LVALUE,lastTokenValue.value);
         let left = normalStatement();
         let assignTree = new ASTNode().initTwoNode(ASTNodeTypes.T_ASSIGN,left,right,null);
         tree = new ASTNode().initTwoNode(ASTNodeTypes.T_GLUE,tree,assignTree,null);
@@ -108,7 +106,9 @@ function returnStatement(){
 }
 
 function normalStatement() {
+    console.log("aaaaaaaaaaaaaaaaaaaaa")
     let tree =  parseExpression(0);
+    console.log(tree,gData.token,gData.nextToken,"tree")
     semicolon();
     return tree;
 }

@@ -38,16 +38,18 @@ function scanStr(endStr) {
 function scanIdent(s) {
     let str = s;
     let c = nextChar();
-    while (typeof c !== "undefined" && !validBlank(c) &&
-    (validNumber(c) || validVar((c)))){
-        if(str.length > gData.KEYWORD_MAX_LENGTH){
-            errPrint(`Identifier too long : ${str}`);
-            return;
+    if(c !== null){
+        while (typeof c !== "undefined" && !validBlank(c) &&
+        (validNumber(c) || validVar((c)))){
+            if(str.length > gData.KEYWORD_MAX_LENGTH){
+                errPrint(`Identifier too long : ${str}`);
+                return;
+            }
+            str += c;
+            c = nextChar();
         }
-        str += c;
-        c = nextChar();
+        putBack(c);
     }
-    putBack(c);
     return str;
 }
 
@@ -92,9 +94,11 @@ function scan(){
     if(nextToken !== null){
         let token = nextToken;
         gData.nextToken = null;
+        gData.token.type = token.type;
+        gData.token.value = token.value;
         return token;
     }
-    if(index === content.length){
+    if(index >= content.length){
         token.type = tokenTypes.T_EOF;
         return;
     }
@@ -198,6 +202,7 @@ function scan(){
                 break;
             }
             else if(validVar(value)){
+                console.log(value,"valuevalue")
                 value = scanIdent(value);
                 token.type = scanKeyword(value);
                 token.value = value;
