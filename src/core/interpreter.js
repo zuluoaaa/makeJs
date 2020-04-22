@@ -56,12 +56,26 @@ function interpretAST(astNode,result=null,scope){
             interpretAST(astNode.left,null,scope);
             interpretAST(astNode.right,null,scope);
             return;
+        case ASTNodeTypes.T_AND:
+            let leftState = interpretAST(astNode.left,null,scope);
+            if(leftState){
+                let rightState = interpretAST(astNode.right,leftState,scope);
+                if(rightState){
+                    return true;
+                }
+            }
+            return false;
+        case ASTNodeTypes.T_OR:
+            let leftState1 = interpretAST(astNode.left,null,scope);
+            if(leftState1){
+                return true;
+            }
+            return !!interpretAST(astNode.right, leftState1, scope);
         case ASTNodeTypes.T_WHILE:
             return interpretWhileAST(astNode,scope);
         case ASTNodeTypes.T_FUN:
             if(astNode.option === "run"){
                 astNode.option = "";
-
                 break;
             }else{
                 scope.add(astNode.value);
@@ -79,6 +93,8 @@ function interpretAST(astNode,result=null,scope){
     if(astNode.left){
         leftResult = interpretAST(astNode.left,null,scope);
     }
+
+
     if(astNode.right){
         rightResult = interpretAST(astNode.right,leftResult,scope);
     }

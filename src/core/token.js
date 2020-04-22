@@ -16,8 +16,8 @@ const T_LE = "<=";
 const T_EQ = "==";
 const T_NEQ = "!=";
 
-const T_AND = "&&";//todo
-const T_OR = "||";//todo
+const T_AND = "&&";
+const T_OR = "||";
 
 
 const T_EOF = "";
@@ -67,6 +67,7 @@ const precedenceList = {
     "":0,
     assign:1,
     condition:2,
+    and:2.5,
     compare:3,
     sum:4,
     product:5,
@@ -81,7 +82,7 @@ const tokenTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_QST,T_COL,
     T_ASSIGN, T_VAR, T_IDENT,
-    T_EOF, T_SEMI,T_COMMA,
+    T_EOF, T_SEMI,T_COMMA,T_AND,T_OR,
     T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
     T_IF, T_ELSE,T_LPT, T_RPT, T_LBR, T_RBR,T_LMBR,T_RMBR,
     T_WHILE,T_FOR,
@@ -93,7 +94,7 @@ const ASTNodeTypes = {
     T_ADD, T_SUB, T_MUL, T_DIV,
     T_VAR,T_ASSIGN,T_INT,T_IDENT,T_STRING,T_NULL,T_UNDEFINED,T_BOOL,T_OBJECT,
     T_LVALUE,
-    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,
+    T_GT, T_GE, T_LT, T_LE, T_EQ, T_NEQ,T_AND,T_OR,
     T_IF,T_ELSE, T_LPT, T_RPT, T_LBR, T_RBR,
     T_GLUE,T_WHILE,T_FOR,
     T_FUN,T_FUNCALL,T_FUNARGS,T_RETURN,T_NATIVE_FUN,T_ARGUMENT,T_ARRAY,T_VISIT

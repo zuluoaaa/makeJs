@@ -16,8 +16,11 @@ const prefixParserMap = {
 const infixParserMap = {
     [tokenTypes.T_LPT]:{parser:funCall,precedence:precedenceList.call},
     [tokenTypes.T_QST]:{parser:condition,precedence:precedenceList.condition},
+
     [tokenTypes.T_ASSIGN]:{parser:assign,precedence:precedenceList.assign},
 
+    [tokenTypes.T_AND]:{parser:infix.bind(null,precedenceList.and),precedence:precedenceList.and},
+    [tokenTypes.T_OR]:{parser:infix.bind(null,precedenceList.and),precedence:precedenceList.and},
     [tokenTypes.T_ADD]:{parser:infix.bind(null,precedenceList.sum),precedence:precedenceList.sum},
     [tokenTypes.T_SUB]:{parser:infix.bind(null,precedenceList.sum),precedence:precedenceList.sum},
     [tokenTypes.T_MUL]:{parser:infix.bind(null,precedenceList.product),precedence:precedenceList.product},

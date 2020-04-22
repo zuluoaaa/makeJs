@@ -98,7 +98,6 @@ function funStatement(){
 }
 
 function returnStatement(){
-    let {token}  = gData;
     match(tokenTypes.T_RETURN,"return");
     let returnTree = parseExpression(0);
     semicolon();
@@ -106,9 +105,7 @@ function returnStatement(){
 }
 
 function normalStatement() {
-    console.log("aaaaaaaaaaaaaaaaaaaaa")
     let tree =  parseExpression(0);
-    console.log(tree,gData.token,gData.nextToken,"tree")
     semicolon();
     return tree;
 }

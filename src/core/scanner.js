@@ -8,13 +8,6 @@ function scanKeyword(str) {
     if(defineKeywords[str]){
         return defineKeywords[str];
     }
-  /*  scan();
-    let nextToken = gData.token;
-
-    if(nextToken.type === tokenTypes.T_LPT){
-        return tokenTypes.T_FUNCALL;
-    }
-    putBackToken(nextToken);*/
     return tokenTypes.T_IDENT;
 }
 
@@ -159,6 +152,24 @@ function scan(){
                 token.type = tokenTypes.T_LE;
             }else {
                 token.type = tokenTypes.T_LT;
+                putBack(next);
+            }
+            break;
+        case "&":
+            next = nextChar();
+            if(next === "&"){
+                token.type = tokenTypes.T_AND;
+            }else {
+                //todo
+                putBack(next);
+            }
+            break;
+        case "|":
+            next = nextChar();
+            if(next === "|"){
+                token.type = tokenTypes.T_OR;
+            }else {
+                //todo
                 putBack(next);
             }
             break;

@@ -10,7 +10,7 @@ function main(){
    init();
    scan();
    let astNodeTree = statement();
-   console.log(JSON.stringify(astNodeTree),"astNodeTree");
+   console.log(astNodeTree,"astNodeTree");
    interpretAST(astNodeTree,null,gData.gScope);
 
    //gData.gScope.set("log",console.log,ASTNodeTypes.T_NATIVE_FUN);
