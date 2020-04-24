@@ -8,7 +8,8 @@
   },
   "scripts": {
     "all": "node test/run.js",
-    "test": "node src/index.js -i ./test/test12.js"
+    "test": "node src/index.js -i ./test/tests/test3.js",
+    "debuger": "node --inspect-brk src/index.js -i ./test/tests/test11.js"
   },
   "repository": {
     "type": "git",
