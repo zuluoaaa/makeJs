@@ -213,7 +213,6 @@ function scan(){
                 break;
             }
             else if(validVar(value)){
-                console.log(value,"valuevalue")
                 value = scanIdent(value);
                 token.type = scanKeyword(value);
                 token.value = value;

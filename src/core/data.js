@@ -25,10 +25,26 @@ function deleteVar(name,scope){
     //todo
 }
 
+function readVal(object){
+    if(object && object._inner){
+        return object.value;
+    }
+    return object;
+}
+
+
+function assignArr(object,val){
+    let key = object._key;
+    object._parent.value[key] = val;
+    return val;
+}
+
+
 module.exports = {
     addVar,
     assignVal,
     findVar,
     deleteVar,
-
+    readVal,
+    assignArr
 }

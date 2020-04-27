@@ -1,3 +1,4 @@
+const {errPrint} = require("../init/commons");
 
 let scopeId = 0;
 
@@ -12,16 +13,27 @@ class Scope {
 
     add(name){
         this.scope[name] = {
-            value:undefined,
-            type:undefined
+            _inner:true,
+            name,
+            value:undefined
         };
     }
     set(name,value,type){
         if(!this.scope[name]){
-            this.scope[name] = {};
+            this.scope[name] = { _inner:true,name};
         }
         this.scope[name].value = value;
         this.scope[name].type = type;
+    }
+
+    static warpVal(value){
+        if(value._inner === true){
+            return value;
+        }
+        return {
+            value,
+            _inner:true
+        }
     }
 
     get(name){
@@ -29,7 +41,7 @@ class Scope {
         let parent = this.parent;
         while (scope !== null){
             if(scope[name]){
-                return scope[name].value;
+                return scope[name];
             }
             scope = parent;
             if(parent){
@@ -38,7 +50,25 @@ class Scope {
         }
         return null;
     }
+
+    getProperty(name,key){
+        let val = this.get(name);
+        if(val === null){
+            errPrint(`Uncaught ReferenceError: ${name} is not defined`)
+        }
+        return {
+            _inner:true,
+            _parent:val,
+            _key:key,
+            name,
+            value:val.value[key],
+        }
+    }
 }
+
+
+
+
 
 module.exports = {
     Scope

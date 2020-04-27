@@ -16,7 +16,6 @@ function validNumber(char){
 }
 
 function validBlank(value){
-    console.log(value,"value",typeof value)
     if(value !== " " &&
         value.indexOf("\r\n") === -1 &&
         value.indexOf("\n") === -1 &&

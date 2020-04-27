@@ -22,7 +22,10 @@ function quickSort(list,len) {
             c = list[a];
         }
     }
+    return list;
 }
 
 let arr = [9,3,2,1,5,-2,6];
 quickSort(arr,7);
+
+log(arr,666);

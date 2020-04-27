@@ -1,8 +1,8 @@
 const {ASTNodeTypes} = require("./token");
 const {errPrint} = require("../init/commons");
-const {assignVal,findVar} = require("./data");
+const {assignVal,findVar,readVal,assignArr} = require("./data");
 const {Scope} = require("./scope");
-
+const {buildInMethods} = require("../init/buildInFn");
 function interpretIfAST(astNode,scope) {
     let state = interpretAST(astNode.left,null,scope);
     if(state){
@@ -32,14 +32,27 @@ function interpretFunCallAST(astNode,scope) {
         && astNode.left.value.length>0
     ){
         astNode.left.value.forEach((item,index)=>{
-            argument[index] = interpretAST(item);
+            let result = interpretAST(item,null,scope);
+            result = Scope.warpVal(result);
+            argument[index] = result;
         })
     }
-    childScope.set("arguments",argument,ASTNodeTypes.T_ARGUMENT);
 
-    let fnAST = scope.get(astNode.value);
-    fnAST.option = "run";
-    return interpretAST(fnAST,null,childScope);
+    if(buildInMethods[astNode.value]){
+        let arr = [];
+        let i=0;
+        while (typeof argument[i] !== "undefined"){
+            arr.push(argument[i].value);
+            ++i;
+        }
+        buildInMethods[astNode.value](...arr);
+    }else{
+        childScope.set("arguments",argument,ASTNodeTypes.T_ARGUMENT);
+        let fnAST = scope.get(astNode.value).value;
+        fnAST.option = "run";
+        return interpretAST(fnAST,null,childScope);
+    }
+
 }
 
 function interpretAST(astNode,result=null,scope){
@@ -100,12 +113,25 @@ function interpretAST(astNode,result=null,scope){
     }
 
 
+    result = readVal(result);
+
+    switch (astNode.op) {
+        case ASTNodeTypes.T_LVALUE:
+            if(leftResult && leftResult._inner && leftResult._parent){
+                return assignArr(leftResult,result);
+            }
+            return assignVal(astNode.value,result,scope);
+    }
+
+
+    leftResult = readVal(leftResult);
+    rightResult = readVal(rightResult);
     switch (astNode.op) {
         case ASTNodeTypes.T_VAR:
             scope.add(astNode.value);
             return;
         case ASTNodeTypes.T_ARGUMENT:
-            scope.set(astNode.value,scope.get("arguments")[astNode.option],astNode.type);
+            scope.set(astNode.value,scope.get("arguments").value[astNode.option].value,astNode.type);
             return;
         case ASTNodeTypes.T_RETURN:
             scope.returnValue = leftResult;
@@ -117,7 +143,8 @@ function interpretAST(astNode,result=null,scope){
         case ASTNodeTypes.T_STRING:
             return astNode.value;
         case ASTNodeTypes.T_ARRAY:
-            return astNode.value;
+
+            return astNode.value.map(item=>interpretAST(item,null,scope));
         case ASTNodeTypes.T_ADD:
             if(rightResult === null || typeof rightResult === "undefined"){
                 return leftResult;
@@ -136,8 +163,6 @@ function interpretAST(astNode,result=null,scope){
             return rightResult;
         case ASTNodeTypes.T_IDENT:
             return findVar(astNode.value,scope);
-        case ASTNodeTypes.T_LVALUE:
-            return assignVal(astNode.value,result,scope);
         case ASTNodeTypes.T_GE:
             return  leftResult >= rightResult;
         case ASTNodeTypes.T_GT:
@@ -151,7 +176,7 @@ function interpretAST(astNode,result=null,scope){
         case ASTNodeTypes.T_NEQ:
             return  leftResult !== rightResult;
         case ASTNodeTypes.T_VISIT:
-            return  findVar(astNode.value,scope)[leftResult].value;
+            return scope.getProperty(astNode.value,leftResult);
         default:
             errPrint(`unknown ASTNode op : ${astNode.op}`);
     }
