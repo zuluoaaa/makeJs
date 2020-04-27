@@ -18,6 +18,9 @@ Now support：
 * Function
 * Array
 
+
+![demo.jpg](/demo.gif)
+
 ```js
 
 function quickSort(list,len) {
