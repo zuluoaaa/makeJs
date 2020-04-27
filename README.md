@@ -29,22 +29,25 @@ function quickSort(list,len) {
     let c = list[a];
     while (a < b){
         while (list[b]>c && a < b){
-            --b;
+            b = b-1;
         }
         if(list[b] < c){
             list[a] = list[b];
             list[b] = c;
-            c = list[--b];
+            b = b-1;
+            c = list[b];
         }
          while (list[a] < c && a < b){
-            ++a;
+            a = a + 1;
          }
         if(list[a] > c){
             list[b] = list[a];
             list[a] = c;
-            c = list[++a];
+            a = a + 1;
+            c = list[a];
         }
     }
+    return list;
 }
 
 let arr = [9,3,2,1,5,-2,6];
