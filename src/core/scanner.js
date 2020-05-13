@@ -74,6 +74,16 @@ function skipBlank() {
     }
 }
 
+function skipOneLine() {
+
+    let line = gData.line;
+    let value = null;
+
+    while (line === gData.line){
+        value = nextChar();
+    }
+}
+
 function scan(){
     skipBlank();
     let {
@@ -106,11 +116,29 @@ function scan(){
             token.type = tokenTypes.T_SUB;
             break;
         case "*":
-            token.type = tokenTypes.T_MUL;
+            next = nextChar();
+            if(next === "/"){
+                token.type = tokenTypes.T_RCMT;
+            }else{
+                putBack(next);
+                token.type = tokenTypes.T_MUL;
+            }
+
             break;
         case "/":
-            token.type = tokenTypes.T_DIV;
+            next = nextChar();
+            if(next === "*"){
+                token.type = tokenTypes.T_LCMT;
+            }
+            else if(next === "/"){
+                token.type = tokenTypes.T_LINE_CMT;
+            }
+            else{
+                putBack(next);
+                token.type = tokenTypes.T_DIV;
+            }
             break;
+
         case ",":
             token.type = tokenTypes.T_COMMA;
             break;
@@ -220,6 +248,11 @@ function scan(){
             }
             errPrint(`Unrecognised char : (${value})`)
         }
+    if(token.type === tokenTypes.T_LINE_CMT){
+        skipOneLine();
+        scan();
+        console.log(gData.token)
+    }
     return true;
 }
 

@@ -42,7 +42,7 @@ function interpretFunCallAST(astNode,scope) {
         let arr = [];
         let i=0;
         while (typeof argument[i] !== "undefined"){
-            arr.push(argument[i].value);
+            arr.push(argument[i] ? argument[i].value : argument[i]);
             ++i;
         }
         buildInMethods[astNode.value](...arr);

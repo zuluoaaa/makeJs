@@ -7,7 +7,9 @@ const T_DIV = "/";
 
 const T_QST = "?";
 const T_COL = ":";
-
+const T_LCMT = "/*";
+const T_RCMT = "*/";
+const T_LINE_CMT = "//";
 
 const T_GT = ">";
 const T_GE = ">=";
@@ -79,7 +81,7 @@ const precedenceList = {
 
 
 const tokenTypes = {
-    T_ADD, T_SUB, T_MUL, T_DIV,
+    T_ADD, T_SUB, T_MUL, T_DIV,T_RCMT,T_LCMT,T_LINE_CMT,
     T_QST,T_COL,
     T_ASSIGN, T_VAR, T_IDENT,
     T_EOF, T_SEMI,T_COMMA,T_AND,T_OR,

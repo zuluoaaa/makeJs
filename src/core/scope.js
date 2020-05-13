@@ -27,6 +27,12 @@ class Scope {
     }
 
     static warpVal(value){
+        if(typeof value === "undefined"){
+            return "undefined"
+        }
+        if(value === null){
+            return null;
+        }
         if(value._inner === true){
             return value;
         }
@@ -48,7 +54,7 @@ class Scope {
                 parent = parent.parent;
             }
         }
-        return null;
+        return undefined;
     }
 
     getProperty(name,key){

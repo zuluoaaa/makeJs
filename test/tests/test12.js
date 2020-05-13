@@ -1,3 +1,4 @@
+//Let's do something , like a array sort
 function quickSort(list,len) {
     let a = 0;
     let b = len-1;
